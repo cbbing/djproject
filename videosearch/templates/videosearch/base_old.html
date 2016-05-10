@@ -1,0 +1,12 @@
+<html>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <head></head>
+    <body>
+        <h3>{% block headTitle %}{% endblock %}</h3>
+        {% block content %} {% endblock %}
+        {% block footer %}
+            <h5>由kekefund荣誉出品</h5>
+        {% endblock%}
+    </body>
+</html>

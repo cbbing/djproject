@@ -1,0 +1,9 @@
+{% extends "videosearch/base.html" %}
+{% block title %}视频搜索引擎{% endblock %}
+
+<h3>{% block headTitle %}搜索平台：{% endblock %}</h3>
+{% block content %}
+{% for platform in platforms %}
+    <p> {{platform.name}} </p>
+{% endfor %}
+{% endblock %}

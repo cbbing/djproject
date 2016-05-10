@@ -1,0 +1,316 @@
+{% extends "videosearch/base.html" %}
+
+{% block wealth2_title %}
+    <title>视频搜索管理端</title>
+{% endblock %}
+
+{% block page_level_styles %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static "metronic/css/select2_metro.css" %}">
+    <link rel="stylesheet" href="{% static "metronic/css/DT_bootstrap.css" %}">
+{% endblock %}
+
+{% block page_content %}
+    <div class="tiles">
+
+        <a href="/data_test/bigvs/">
+            <div class="tile image selected">
+                <div class="tile-body">
+                    {% load staticfiles %}
+                    <img src="{% static "a/img/bigv.jpg" %}" alt=""/>
+                </div>
+                <div class="tile-object">
+                    <div class="name">
+                        大V言论
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        {#        <a href="http://www.hao123.com" target="_blank">#}
+        {#            <div class="tile image selected">#}
+        {#                <div class="tile-body">#}
+        {#                    {% load staticfiles %}#}
+        {#                    <img src="{% static "a/img/hao123.jpg" %}" alt=""/>#}
+        {#                </div>#}
+        {#                <div class="tile-object">#}
+        {#                    <div class="name">#}
+        {##}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#        </a>#}
+        {##}
+        {#        <a href="http://www.baidu.com" target="_blank">#}
+        {#            <div class="tile image selected">#}
+        {#                <div class="tile-body">#}
+        {#                    {% load staticfiles %}#}
+        {#                    <img src="{% static "a/img/baidu.jpg" %}" alt=""/>#}
+        {#                </div>#}
+        {#                <div class="tile-object">#}
+        {#                    <div class="name">#}
+        {##}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#        </a>#}
+        {##}
+        {#        <a href="http://www.cnblogs.com/news/" target="_blank">#}
+        {#            <div class="tile image selected">#}
+        {#                <div class="tile-body">#}
+        {#                    {% load staticfiles %}#}
+        {#                    <img src="{% static "a/img/cnblogs.jpg" %}" alt=""/>#}
+        {#                </div>#}
+        {#                <div class="tile-object">#}
+        {#                    <div class="name">#}
+        {#                        博客园#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#        </a>#}
+        {##}
+
+
+        {#        <div class="tile bg-blue selected">#}
+        {#        <div class="corner"></div>#}
+        {#        <div class="check"></div>#}
+        {#            <div class="tile-body">#}
+        {#                <i class="icon-cogs"></i>#}
+        {#            </div>#}
+        {#            <div class="tile-object">#}
+        {#                <div class="name">#}
+        {#                    系统设置#}
+        {#                </div>#}
+        {#            </div>#}
+        {#        </div>#}
+
+        {##}
+        {#    <div class="tile bg-green">#}
+        {#        <div class="tile-body">#}
+        {#            <i class="icon-bar-chart"></i>#}
+        {#        </div>#}
+        {#        <div class="tile-object">#}
+        {#            <div class="name">#}
+        {#                统计报表#}
+        {#            </div>#}
+        {#            <div class="number">#}
+        {#            </div>#}
+        {#        </div>#}
+        {#    </div>#}
+        {##}
+        {#    <div class="tile double selected bg-blue">#}
+        {#        <div class="corner"></div>#}
+        {#        <div class="check"></div>#}
+        {#        <div class="tile-body">#}
+        {#            <h4>api@travelsky.com</h4>#}
+        {##}
+        {#            <p>您有新的API用户需求需要处理</p>#}
+        {##}
+        {#            <p>2015-09-21</p>#}
+        {#        </div>#}
+        {#        <div class="tile-object">#}
+        {#            <div class="name">#}
+        {#                <i class="icon-envelope"></i>#}
+        {#            </div>#}
+        {#            <div class="number">#}
+        {#                14#}
+        {#            </div>#}
+        {#        </div>#}
+        {#    </div>#}
+        {##}
+        {#    <div class="tile double bg-purple">#}
+        {#        <div class="tile-body">#}
+        {#            {% load staticfiles %}#}
+        {#            <img src="{% static "metronic/image/photo1.jpg" %}" alt=""/>#}
+        {##}
+        {#            <h3>Announements</h3>#}
+        {##}
+        {#            <p>#}
+        {#                Easily style icon color, size, shadow, and anything that's possible with CSS.#}
+        {#            </p>#}
+        {#        </div>#}
+        {#        <div class="tile-object">#}
+        {#            <div class="name">#}
+        {#                Bob Nilson#}
+        {#            </div>#}
+        {#            <div class="number">#}
+        {#                24 Jan 2013#}
+        {#            </div>#}
+        {#        </div>#}
+        {#    </div>#}
+        {#    <div class="tile bg-yellow">#}
+        {#        <div class="tile-body">#}
+        {#            <i class="icon-shopping-cart"></i>#}
+        {#        </div>#}
+        {#        <div class="tile-object">#}
+        {#            <div class="name">#}
+        {#                订单管理#}
+        {#            </div>#}
+        {#            <div class="number">#}
+        {#                121#}
+        {#            </div>#}
+        {#        </div>#}
+        {#    </div>#}
+        {#    <div class="tile image selected">#}
+        {#        <div class="tile-body">#}
+        {#            {% load staticfiles %}#}
+        {#            <img src="{% static "metronic/image/image2.jpg" %}" alt=""/>#}
+        {#        </div>#}
+        {#        <div class="tile-object">#}
+        {#            <div class="name">#}
+        {#                多媒体#}
+        {#            </div>#}
+        {#        </div>#}
+        {#    </div>#}
+        {#    <div class="tile bg-green">#}
+        {#        <div class="tile-body">#}
+        {#            <i class="icon-comments-alt"></i>#}
+        {#        </div>#}
+        {#        <div class="tile-object">#}
+        {#            <div class="name">#}
+        {#                用户反馈#}
+        {#            </div>#}
+        {#            <div class="number">#}
+        {#                12#}
+        {#            </div>#}
+        {#        </div>#}
+        {#    </div>#}
+        {#    <div class="tile double bg-grey">#}
+        {#        <div class="tile-body">#}
+        {#            {% load staticfiles %}#}
+        {#            <img src="{% static "metronic/image/photo2.jpg" %}" alt=""/>#}
+        {##}
+        {#            <h3>@lisa_wong</h3>#}
+        {##}
+        {#            <p>#}
+        {#                I really love this theme. I look forward to check the next release!#}
+        {#            </p>#}
+        {#        </div>#}
+        {#        <div class="tile-object">#}
+        {#            <div class="name">#}
+        {#                <i class="icon-twitter"></i>#}
+        {#            </div>#}
+        {#            <div class="number">#}
+        {#                10:45PM, 23 Jan#}
+        {#            </div>#}
+        {#        </div>#}
+        {#    </div>#}
+        {#    <div class="tile bg-blue">#}
+        {#        <div class="tile-body">#}
+        {#            <i class="icon-coffee"></i>#}
+        {#        </div>#}
+        {#        <div class="tile-object">#}
+        {#            <div class="name">#}
+        {#                Meetups#}
+        {#            </div>#}
+        {#            <div class="number">#}
+        {#                12 Jan#}
+        {#            </div>#}
+        {#        </div>#}
+        {#    </div>#}
+        {##}
+        {#    <div class="tile bg-purple">#}
+        {#        <div class="tile-body">#}
+        {#            <i class="icon-briefcase"></i>#}
+        {#        </div>#}
+        {#        <div class="tile-object">#}
+        {#            <div class="name">#}
+        {#                Documents#}
+        {#            </div>#}
+        {#            <div class="number">#}
+        {#                124#}
+        {#            </div>#}
+        {#        </div>#}
+        {#    </div>#}
+        {#    <div class="tile image double selected">#}
+        {#        <div class="tile-body">#}
+        {#            {% load staticfiles %}#}
+        {#            <img src="{% static "metronic/image/image4.jpg" %}" alt=""/>#}
+        {##}
+        {#        </div>#}
+        {#        <div class="tile-object">#}
+        {#            <div class="name">#}
+        {#                Gallery#}
+        {#            </div>#}
+        {#            <div class="number">#}
+        {#                124#}
+        {#            </div>#}
+        {#        </div>#}
+        {#    </div>#}
+        {##}
+        {#    <div class="tile bg-purple">#}
+        {#        <div class="tile-body">#}
+        {#            <i class="icon-plane"></i>#}
+        {#        </div>#}
+        {#        <div class="tile-object">#}
+        {#            <div class="name">#}
+        {#                Projects#}
+        {#            </div>#}
+        {#            <div class="number">#}
+        {#                34#}
+        {#            </div>#}
+        {#        </div>#}
+        {#    </div>#}
+        {#    #}
+    </div>
+    <!-- END PAGE CONTENT-->
+{% endblock %}
+
+{% block javascript_load %}
+    <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+    <!-- BEGIN CORE PLUGINS -->
+    {% load staticfiles %}
+    <script src="{% static "metronic/js/jquery-1.10.1.min.js" %}"></script>
+    <script src="{% static "metronic/js/jquery-migrate-1.2.1.min.js" %}"></script>
+    <!-- IMPORTANT! Load jquery-ui-1.10.1.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+    <script src="{% static "metronic/js/jquery-ui-1.10.1.custom.min.js" %}"></script>
+    <script src="{% static "metronic/js/bootstrap.min.js" %}"></script>
+    <!--[if lt IE 9]>
+        <script src="{% static "metronic/js/excanvas.min.js" %}"></script>
+        <script src="{% static "metronic/js/respond.min.js" %}"></script>
+	    <![endif]-->
+    <script src="{% static "metronic/js/jquery.slimscroll.min.js" %}"></script>
+    <script src="{% static "metronic/js/jquery.blockui.min.js" %}"></script>
+    <script src="{% static "metronic/js/jquery.cookie.min.js" %}"></script>
+    <script src="{% static "metronic/js/jquery.uniform.min.js" %}"></script>
+    <!-- END CORE PLUGINS -->
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="{% static "metronic/js/app.js" %}"></script>
+    <script src="{% static "metronic/js/index.js" %}"></script>
+
+
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <script src="{% static "metronic/js/select2.min.js" %}"></script>
+    <script src="{% static "metronic/js/jquery.dataTables.js" %}"></script>
+    <script src="{% static "metronic/js/DT_bootstrap.js" %}"></script>
+    {#    <script src="{% static "metronic/js/form-validation.js" %}"></script>#}
+    {#    <script src="{% static "metronic/js/table-advanced.js" %}"></script>#}
+    {#    <script src="{% static "metronic/js/table-managed.js" %}"></script>#}
+
+    <!-- END PAGE LEVEL PLUGINS -->
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="{% static "metronic/js/app.js" %}"></script>
+    <script src="{% static "metronic/js/table-managed.js" %}"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            App.init();
+            TableManaged.init();
+        });
+    </script>
+    <script type="text/javascript">  var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37564768-1']);
+    _gaq.push(['_setDomainName', 'keenthemes.com']);
+    _gaq.push(['_setAllowLinker', true]);
+    _gaq.push(['_trackPageview']);
+    (function () {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+    })();</script>
+
+    <!-- END JAVASCRIPTS -->
+{% endblock %}
