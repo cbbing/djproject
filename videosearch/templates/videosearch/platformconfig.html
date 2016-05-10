@@ -1,9 +1,9 @@
 {% extends "videosearch/base.html" %}
-{% block title %}视频搜索引擎{% endblock %}
 
-<h3>{% block headTitle %}视频搜索平台配置：{% endblock %}</h3>
-{% block content %}
 
+
+{% block page_content %}
+<div class="tiles">
 <form action="" method="post">
     {% csrf_token %}
     {% for form in generalConfigFormSet %}
@@ -18,10 +18,11 @@
 <form action="" method="post">
     {% csrf_token %}
     {% for form in platformConfigFormSet %}
-        <p>{{ form }}</p>
+        {{ form }}
     {% endfor %}
     <p>
         <input type='submit' value="提交">
     </p>
 </form>
+</div>
 {% endblock %}

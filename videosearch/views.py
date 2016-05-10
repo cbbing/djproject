@@ -17,9 +17,24 @@ class TaskList(ListView):
 
     model = Task
 
+# class PlatformConfig(FormView):
+#
+#     template_name = 'videosearch/platformconfig.html'
+#
+#     form_class = PlatformConfig
+#
+#     generalConfigFormSet = modelformset_factory(GeneralConfig, fields=('page_count', 'key_from'), extra=0)
+#
+#     platformConfigFormSet = modelformset_factory(PlatformConfig,
+#                                                  fields=('platform', 'lentype_all',
+#                                                          'lentype_0_10', 'lentype_10_30',
+#                                                          'lentype_30_60', 'lentype_60_More'),
+#                                                  extra=0)
 
 class IndexView(TemplateView):
     template_name = 'videosearch/index.html'
+
+
 
     # def get_context_data(self, **kwargs):
     #     context = super(IndexView, self).get_context_data(**kwargs)
