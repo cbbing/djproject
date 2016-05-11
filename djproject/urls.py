@@ -19,6 +19,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^$', include('videosearch.urls', namespace='videosearch')),
+    url(r'^index$', include('videosearch.urls', namespace='videosearch')),
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', 'django.contrib.auth.views.login', {'template_name':'login.html'}),
     url('r^logout/$', 'django.contrib.auth.views.logout',{'template_name':'logout.html'}),

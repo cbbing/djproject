@@ -17,6 +17,9 @@ class GeneralConfig(models.Model):
     key_from = models.IntegerField('关键词来源')
     operation_date = models.DateTimeField('更新时间',default=now())
 
+    def __unicode__(self):
+        return '搜索页数:{} 关键词来源:{}'.format(self.page_count, self.key_from)
+
 class PlatformConfig(models.Model):
     # 0: 全部， 1：0-10分钟，2：10-30分钟，3：30-60分钟，4：60分钟以上
     platform = models.ForeignKey(Platform)
@@ -26,6 +29,9 @@ class PlatformConfig(models.Model):
     lentype_30_60 = models.BooleanField('30-60分钟')
     lentype_60_More = models.BooleanField('60分钟以上')
     operation_date = models.DateTimeField('更新时间',default=now())
+
+    def __unicode__(self):
+        return self.platform.name
 
 class PlatformKeys(models.Model):
     platform = models.ForeignKey(Platform)

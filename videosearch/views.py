@@ -1,16 +1,20 @@
+# coding: utf-8
+
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django.http import HttpResponseRedirect
 
 # Create your views here.
 from django.contrib.auth.decorators import login_required
 from .models import Task, Platform, PlatformConfig, GeneralConfig
-from .forms import PlatformConfigForm
+from .forms import PlatformConfigForm, GeneralConfigForm
 
 from django.forms.formsets import formset_factory
-from django.forms.models import modelformset_factory
+from django.forms.models import modelformset_factory, modelform_factory
 
 from django.views.generic import RedirectView, TemplateView, ListView, FormView, UpdateView
 
+class IndexView(TemplateView):
+    template_name = 'videosearch/index.html'
 
 class TaskList(ListView):
     template_name = 'videosearch/index.html'
@@ -31,8 +35,7 @@ class TaskList(ListView):
 #                                                          'lentype_30_60', 'lentype_60_More'),
 #                                                  extra=0)
 
-class IndexView(TemplateView):
-    template_name = 'videosearch/index.html'
+
 
 
 
@@ -44,6 +47,22 @@ class IndexView(TemplateView):
     #         context = dict(context, **userobj)
     #     #else:
     #     return context
+
+class GeneralConfigView(FormView):
+    template_name = 'videosearch/generalconfig.html'
+
+    model = GeneralConfig
+
+    form_class = GeneralConfigForm
+    success_url = '/videosearch/'
+
+
+
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        form.send_email()
+        return super(GeneralConfigForm, self).form_valid(form)
 
 
 @login_required(login_url='/login/')
@@ -62,12 +81,25 @@ def platforms(request):
     return render_to_response('videosearch/platforms.html', locals())
     #return render(request, 'videosearch/platforms', {'platforms':Task.objects})
 
+def general_config(request):
+
+    config = GeneralConfig.objects.last()
+    form = GeneralConfigForm(instance=config)
+    if request.method == 'POST':
+        for key in request.POST:
+            value = request.POST.getlist(key)
+            print key, value
+        form = GeneralConfigForm(request.POST)
+        if form.is_valid():
+            #GeneralConfig.objects.all().delete() #清空
+            form.save()
+        return HttpResponseRedirect('/')
+    return render_to_response('videosearch/generalconfig.html', locals())
+
+
 def platform_config(request):
     platformconfigs = PlatformConfig.objects.all()
-    # for config in platformconfigs:
-    #     platform = config.platform.name
 
-    generalConfigFormSet = modelformset_factory(GeneralConfig, fields=('page_count', 'key_from'), extra=0)
 
     platformConfigFormSet = modelformset_factory(PlatformConfig,
                                                  fields=('platform', 'lentype_all',
