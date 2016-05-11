@@ -31,7 +31,7 @@ class PlatformConfigForm(forms.Form):
 class ConfigForm(ModelForm):
     class Meta:
         model = PlatformConfig
-        fields = ['platform', 'lentype_all', 'lentype_0_10','lentype_10_30','lentype_30_60','lentype_60_More']
+        fields = "__all__"
 
 class GeneralConfigForm(ModelForm):
     class Meta:

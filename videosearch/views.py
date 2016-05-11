@@ -12,6 +12,7 @@ from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory, modelform_factory
 
 from django.views.generic import RedirectView, TemplateView, ListView, FormView, UpdateView
+import re
 
 class IndexView(TemplateView):
     template_name = 'videosearch/index.html'
@@ -56,8 +57,6 @@ class GeneralConfigView(FormView):
     form_class = GeneralConfigForm
     success_url = '/videosearch/'
 
-
-
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
@@ -99,20 +98,54 @@ def general_config(request):
 
 def platform_config(request):
     platformconfigs = PlatformConfig.objects.all()
+    # for config in PlatformConfig.objects.all():
 
 
     platformConfigFormSet = modelformset_factory(PlatformConfig,
-                                                 fields=('platform', 'lentype_all',
-                                                         'lentype_0_10','lentype_10_30',
-                                                         'lentype_30_60','lentype_60_More'),
+                                                 fields="__all__",
                                                  extra=0)
 
     if request.method == 'POST':
-        formset = platformconfigs(request.POST)
-        formset.save()
-        return #render_to_response('platformconfig.html', locals())
-    # else:
-    #     formset = platformconfigs()
+        for key in request.POST:
+            value = request.POST.getlist(key)
+            print key, value
+
+        print len(PlatformConfig.objects.all())
+
+        for config in PlatformConfig.objects.all():
+            print config.platform.id
+            pc = PlatformConfig()
+            # for key in request.POST:
+            #     value = request.POST.getlist(key)
+            #     value = True if value == [u'on'] else False
+            #
+            #     f = re.search('-(\d+)-(.*)', key)
+            #     if not f:
+            #         break
+            #     id = int(f.group(1))+1
+            #     p_key = f.group(2)
+            #     if id == config.platform.id:
+            #         if p_key == u'platform':
+            #             pc.platform = Platform.objects.get(pk=id)
+            #         elif p_key == u'lentype_all':
+            #             pc.lentype_all = value
+            #         elif p_key == u'lentype_0_10':
+            #             pc.lentype_all = value
+            #         elif p_key == u'lentype_10_30':
+            #             pc.lentype_all = value
+            #         elif p_key == u'lentype_30_60':
+            #             pc.lentype_all = value
+            #         elif p_key == u'lentype_60_More':
+            #             pc.lentype_all = value
+            #
+            # print pc
+            # pc.save()
+
+
+        # formset = platformconfigs(request.POST)
+        # formset.save()
+        return HttpResponseRedirect('/')
+
 
 
     return render_to_response('videosearch/platformconfig.html', locals())

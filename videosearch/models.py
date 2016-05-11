@@ -21,17 +21,92 @@ class GeneralConfig(models.Model):
         return '搜索页数:{} 关键词来源:{}'.format(self.page_count, self.key_from)
 
 class PlatformConfig(models.Model):
-    # 0: 全部， 1：0-10分钟，2：10-30分钟，3：30-60分钟，4：60分钟以上
-    platform = models.ForeignKey(Platform)
-    lentype_all = models.BooleanField('全部', default=True)
-    lentype_0_10 = models.BooleanField('0-10分钟')
-    lentype_10_30 = models.BooleanField('10-30分钟')
-    lentype_30_60 = models.BooleanField('30-60分钟')
-    lentype_60_More = models.BooleanField('60分钟以上')
+
+    # '10000': {'全部':True, '0-10分钟':False, '10-30分钟':False, ''30-60分钟':False, '60分钟以上':'False'}
+    platform_youku = models.ForeignKey(Platform)
+    lentype_youku = models.CharField('时长类型', max_length=10)
+
+    platform_tudou = models.ForeignKey(Platform)
+    lentype_tudou = models.CharField('时长类型', max_length=10)
+
+    platform_iqiyi = models.ForeignKey(Platform)
+    lentype_iqiyi = models.CharField('时长类型', max_length=10)
+
+    platform_letv = models.ForeignKey(Platform)
+    lentype_letv = models.CharField('时长类型', max_length=10)
+
+    platform_sohu = models.ForeignKey(Platform)
+    lentype_sohu = models.CharField('时长类型', max_length=10)
+
+    platform_qq = models.ForeignKey(Platform)
+    lentype_qq = models.CharField('时长类型', max_length=10)
+
+    platform_sina = models.ForeignKey(Platform)
+    lentype_sina = models.CharField('时长类型', max_length=10)
+
+    platform_huashu = models.ForeignKey(Platform)
+    lentype_huashu = models.CharField('时长类型', max_length=10)
+
+    platform_kankan = models.ForeignKey(Platform)
+    lentype_kankan = models.CharField('时长类型', max_length=10)
+
+    platform_56 = models.ForeignKey(Platform)
+    lentype_56 = models.CharField('时长类型', max_length=10)
+
+    platform_ku6 = models.ForeignKey(Platform)
+    lentype_ku6 = models.CharField('时长类型', max_length=10)
+
+    platform_baomihua = models.ForeignKey(Platform)
+    lentype_baomihua = models.CharField('时长类型', max_length=10)
+
+    platform_cctv = models.ForeignKey(Platform)
+    lentype_cctv = models.CharField('时长类型', max_length=10)
+
+    platform_163 = models.ForeignKey(Platform)
+    lentype_163 = models.CharField('时长类型', max_length=10)
+
+    platform_bilibili = models.ForeignKey(Platform)
+    lentype_bilibili = models.CharField('时长类型', max_length=10)
+
+    platform_hunantv = models.ForeignKey(Platform)
+    lentype_hunantv = models.CharField('时长类型', max_length=10)
+
+    platform_baofeng = models.ForeignKey(Platform)
+    lentype_baofeng = models.CharField('时长类型', max_length=10)
+
+    platform_fun = models.ForeignKey(Platform)
+    lentype_fun = models.CharField('时长类型', max_length=10)
+
+    platform_pptv = models.ForeignKey(Platform)
+    lentype_pptv = models.CharField('时长类型', max_length=10)
+
+    platform_tv189 = models.ForeignKey(Platform)
+    lentype_tv189 = models.CharField('时长类型', max_length=10)
+
+    platform_baidu = models.ForeignKey(Platform)
+    lentype_baidu = models.CharField('时长类型', max_length=10)
+
+    platform_pipi = models.ForeignKey(Platform)
+    lentype_pipi = models.CharField('时长类型', max_length=10)
+
+    platform_tangdou = models.ForeignKey(Platform)
+    lentype_tangdou = models.CharField('时长类型', max_length=10)
+
+    platform_acfun = models.ForeignKey(Platform)
+    lentype_acfun = models.CharField('时长类型', max_length=10)
+
+
+
     operation_date = models.DateTimeField('更新时间',default=now())
 
-    def __unicode__(self):
-        return self.platform.name
+    # lentype_all = models.BooleanField('全部', default=True)
+    # lentype_0_10 = models.BooleanField('0-10分钟', default=False)
+    # lentype_10_30 = models.BooleanField('10-30分钟', default=False)
+    # lentype_30_60 = models.BooleanField('30-60分钟', default=False)
+    # lentype_60_More = models.BooleanField('60分钟以上', default=False)
+
+    # def __unicode__(self):
+    #     return self.platform.name
 
 class PlatformKeys(models.Model):
     platform = models.ForeignKey(Platform)
