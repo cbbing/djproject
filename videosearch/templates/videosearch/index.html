@@ -1,9 +1,5 @@
 {% extends "videosearch/base.html" %}
 
-{% block wealth2_title %}
-    <title>视频搜索管理端</title>
-{% endblock %}
-
 {% block page_level_styles %}
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'metronic/css/select2_metro.css' %}">
@@ -35,7 +31,22 @@
                 </div>
                 <div class="tile-object">
                     <div class="name">
-                        配置文件
+                        全局配置
+                    </div>
+                    <div class="number">
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a href="/videosearch/platformconfig">
+            <div class="tile bg-green">
+                <div class="tile-body">
+                    <i class="icon-lock"></i>
+                </div>
+                <div class="tile-object">
+                    <div class="name">
+                        平台配置
                     </div>
                     <div class="number">
                     </div>
