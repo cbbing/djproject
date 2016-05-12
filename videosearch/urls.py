@@ -5,9 +5,10 @@ from . import views
 urlpatterns = [
 
     # ex : /videosearch/
-    url(r'^$', views.IndexView.as_view()),
+    url(r'^$', views.IndexView.as_view(), name='index'),
     url(r'^platformconfig$', views.platform_config, name='platformconfig'),
     url(r'^generalconfig$', views.general_config, name='generalconfig'),
+    url(r'^tasklist$', views.TastListView.as_view(), name='tasklist'),
 
     # ex: /videosearch/5
     url(r'^(?P<task_id>[0-9]+)/$', views.detail, name='detail'),

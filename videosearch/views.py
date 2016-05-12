@@ -18,6 +18,11 @@ import copy
 class IndexView(TemplateView):
     template_name = 'videosearch/index.html'
 
+class TastListView(ListView):
+    template_name = 'videosearch/tasklist.html'
+    model = Task
+
+
 @login_required(login_url='/login/')
 def general_config(request):
 
@@ -34,8 +39,8 @@ def general_config(request):
         return HttpResponseRedirect('/')
     return render_to_response('videosearch/generalconfig.html', locals())
 
+@login_required(login_url='/login/')
 def platform_config(request):
-
 
     platformConfigFormSet = modelformset_factory(PlatformConfig,
                                                  fields="__all__",
@@ -78,18 +83,13 @@ def platform_config(request):
 
             print pc
             pc.save()
-
-
-        # formset = platformconfigs(request.POST)
-        # formset.save()
-        return HttpResponseRedirect('/videosearch/platformconfig')
-
-
+        return HttpResponseRedirect('/')
+        # return HttpResponseRedirect('/videosearch/platformconfig')
 
     return render_to_response('videosearch/platformconfig.html', locals())
 
 
-@login_required(login_url='/login/')
+
 def index(request):
     lastest_task_list = Task.objects.order_by('-create_at')
     context = { 'lastest_task_list':lastest_task_list}
