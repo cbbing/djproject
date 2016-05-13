@@ -1,0 +1,29 @@
+{% extends "videosearch/base.html" %}
+
+
+{% block page_content %}
+<div class="tiles" xmlns="http://www.w3.org/1999/html">
+<form action="" method="post">
+    {% csrf_token %}
+
+        {{ form }}
+
+
+    <p>
+        <input type='submit' value="提交">
+    </p>
+</form>
+
+<!--<form action="" method="post">-->
+    <!--{% csrf_token %}-->
+    <!--{% for form in platformConfigFormSet %}-->
+    <!--<table >-->
+        <!--{{ form.as_table }}-->
+    <!--</table>-->
+    <!--{% endfor %}-->
+    <!--<p>-->
+        <!--<input type='submit' value="提交">-->
+    <!--</p>-->
+<!--</form>-->
+</div>
+{% endblock %}
