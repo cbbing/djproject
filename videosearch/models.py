@@ -116,9 +116,12 @@ class PlatformKeys(models.Model):
 
 class Task(models.Model):
     name = models.CharField('名称', max_length=50)
+    status = models.CharField('状态', max_length=30)
+    progress = models.CharField('进度', max_length=50)
+    actions = models.CharField('操作', max_length=50)
     create_at = models.DateTimeField("创建日期", default=now())
-    video_platforms =models.ManyToManyField(Platform)
-    configs = models.TextField()
+    video_platforms = models.CharField('平台', max_length=200, default='')
+    configs = models.TextField('配置', default='')
     #config = models.ForeignKey(Config)
 
     def __unicode__(self):

@@ -11,12 +11,27 @@ from .forms import PlatformConfigForm, GeneralConfigForm
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory, modelform_factory
 
-from django.views.generic import RedirectView, TemplateView, ListView, FormView, UpdateView
+from django.views.generic import RedirectView, TemplateView, ListView,DetailView, FormView, UpdateView
 import re
 import copy
 
 class IndexView(TemplateView):
     template_name = 'videosearch/index.html'
+
+class TastListView(ListView):
+    template_name = 'videosearch/tasklist.html'
+    model = Task
+
+# class TaskDetailView(DetailView):
+#     template_name = 'videosearch/taskdetail.html'
+#     model = Task
+#
+#
+#     def get_context_data(self, **kwargs):
+#         context = super(TaskDetailView, self).get_context_data(**kwargs)
+#         #context['now'] = timezone.now()
+#         return context
+
 
 @login_required(login_url='/login/')
 def general_config(request):
@@ -34,8 +49,8 @@ def general_config(request):
         return HttpResponseRedirect('/')
     return render_to_response('videosearch/generalconfig.html', locals())
 
+@login_required(login_url='/login/')
 def platform_config(request):
-
 
     platformConfigFormSet = modelformset_factory(PlatformConfig,
                                                  fields="__all__",
@@ -78,26 +93,24 @@ def platform_config(request):
 
             print pc
             pc.save()
-
-
-        # formset = platformconfigs(request.POST)
-        # formset.save()
-        return HttpResponseRedirect('/videosearch/platformconfig')
-
-
+        return HttpResponseRedirect('/')
+        # return HttpResponseRedirect('/videosearch/platformconfig')
 
     return render_to_response('videosearch/platformconfig.html', locals())
 
 
-@login_required(login_url='/login/')
+
 def index(request):
     lastest_task_list = Task.objects.order_by('-create_at')
     context = { 'lastest_task_list':lastest_task_list}
     return render(request, 'videosearch/index.html', context)
 
-def detail(request, task_id):
+def task_detail(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
-    return render(request, 'videosearch/detail.html', {'task':task})
+    platformconfigs = PlatformConfig.objects.all()
+
+
+    return render(request, 'videosearch/taskdetail.html', {'task':task, 'platformconfigs':platformconfigs})
 
 def platforms(request):
     platforms = Platform.objects.all()
