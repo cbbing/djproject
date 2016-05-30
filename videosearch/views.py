@@ -11,7 +11,7 @@ from django.http import HttpResponseRedirect
 
 # Create your views here.
 from django.contrib.auth.decorators import login_required
-from .models import Task, Platform, PlatformConfig, GeneralConfig
+from .models import Task, Platform, PlatformConfig, GeneralConfig, PlatformKeys
 from .forms import PlatformConfigForm, GeneralConfigForm
 
 from django.forms.formsets import formset_factory
@@ -116,8 +116,25 @@ def task_detail(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
     platformconfigs = PlatformConfig.objects.all()
 
+    class Tab():
+        def __init__(self, id, platform):
+            self.id = id
+            self.platform = platform
 
-    return render(request, 'videosearch/taskdetail.html', {'task':task, 'platformconfigs':platformconfigs})
+    tabPlatforms = []
+    for i in range(len(platformconfigs)):
+        tab = Tab(i+1, platformconfigs[i])
+        tabPlatforms.append(tab)
+
+    tabPlatforms_active = tabPlatforms[0]
+    tabPlatforms_others = tabPlatforms[1:]
+
+    return render(request, 'videosearch/taskdetail.html', locals())
+
+def keys_list(request):
+    objects = PlatformKeys.objects.all()
+
+    print objects
 
 def platforms(request):
     platforms = Platform.objects.all()

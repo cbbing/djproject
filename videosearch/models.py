@@ -111,7 +111,7 @@ class PlatformConfig(models.Model):
 class PlatformKeys(models.Model):
     platform = models.ForeignKey(Platform)
     key_include = models.CharField('包含关键词',max_length=100)
-    key_exclude = models.CharField('排除关键词', max_length=100)
+    key_exclude = models.CharField('排除关键词', max_length=100, null=True)
 
 
 class Task(models.Model):
