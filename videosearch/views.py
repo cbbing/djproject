@@ -8,6 +8,7 @@ import json
 
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django.http import HttpResponseRedirect
+from django.utils.safestring import SafeString
 
 # Create your views here.
 from django.contrib.auth.decorators import login_required
@@ -20,6 +21,7 @@ from django.forms.models import modelformset_factory, modelform_factory
 from django.views.generic import RedirectView, TemplateView, ListView,DetailView, FormView, UpdateView
 import re
 import copy
+
 
 
 class IndexView(TemplateView):
@@ -146,17 +148,19 @@ def brokermap(request):
     df = pd.read_excel('videosearch/data/zqgs.xlsx')
     grouped = df['name'].groupby(df['area'])
     se_counts = grouped.count()
+    dict_counts = dict(se_counts)
+
 
     userData = []
     for ix, value in se_counts.iteritems():
         print ix, value
-        zq_d = {'name': ix, 'value': value}
+        zq_d = {'name': ix, 'value': value*100}
         userData.append(zq_d)
 
     encodejson = json.dumps(userData)
     # print repr(userData)
-    print encodejson
-    return render(request, 'videosearch/broker-map.html', {'userData': encodejson})
+    # print encodejson
+    return render(request, 'videosearch/broker-map.html', {'userData': SafeString(encodejson), 'dict_counts':dict_counts})
 
 
 

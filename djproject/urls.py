@@ -18,9 +18,11 @@ from django.contrib import admin
 
 
 urlpatterns = [
+
     url(r'^$', include('videosearch.urls', namespace='videosearch')),
     url(r'^index$', include('videosearch.urls', namespace='videosearch')),
 
+    url(r'&grappelli/', include('grappelli.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', 'django.contrib.auth.views.login', {'template_name':'login.html'}),
 
