@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'jobs',
     'polls',
     'videosearch',
+    'bbcure',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -84,10 +85,10 @@ WSGI_APPLICATION = 'djproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'videosite',
-        'USER': 'shipin',
-        'PASSWORD': 'AAaa0924',
-        'HOST': 'shipinjiankong.mysql.rds.aliyuncs.com',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
         'PORT': 3306,
     }
 }
