@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, static
 
 from . import views
 
@@ -6,6 +6,12 @@ urlpatterns = [
 
     # ex : /videosearch/
     url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^update_data/$', views.update_data),
+    url(r'^success/$', views.success),
+
+
+
+
     # url(r'^platformconfig$', views.platform_config, name='platformconfig'),
     # url(r'^generalconfig$', views.general_config, name='generalconfig'),
     # url(r'^tasklist$', views.TastListView.as_view(), name='tasklist'),
