@@ -21,13 +21,8 @@ class CureData(models.Model):
     status = models.IntegerField('状态', default=0, choices=STATUS_SIZES) # 0,进行中; 1,已完成
 
     class Meta:
-        ordering = ['name']
+        ordering = ['create_at']
 
     def __unicode__(self):
         return self.name
 
-class CureDataImageForm(forms.ModelForm):
-
-    class Meta:
-        model = CureData
-        fields = '__all__'

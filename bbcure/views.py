@@ -7,7 +7,7 @@ from django.shortcuts import render, render_to_response
 from django.views.generic import RedirectView, TemplateView, ListView,DetailView, FormView, UpdateView
 from django.http import HttpResponse, HttpResponseRedirect
 from bbcure.forms import CureDataForm
-from bbcure.models import CureDataImageForm
+from bbcure.forms import CureDataImageForm
 from models import CureData
 from djproject.settings import MEDIA_ROOT
 

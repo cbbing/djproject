@@ -2,6 +2,7 @@
 
 from django import forms
 from django.utils.timezone import now
+from models import CureData
 
 class CureDataForm(forms.Form):
     name = forms.CharField(label="名称")
@@ -11,3 +12,9 @@ class CureDataForm(forms.Form):
     image = forms.FileField(label="图片", required=False)
     operator = forms.CharField(label="操作者")
     status = forms.IntegerField(label="状态")
+
+class CureDataImageForm(forms.ModelForm):
+
+    class Meta:
+        model = CureData
+        fields = '__all__'
