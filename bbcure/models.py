@@ -19,6 +19,7 @@ class CureData(models.Model):
     image = models.ImageField('图片', upload_to='photos', blank=True)
     operator = models.CharField('操作者', max_length=50, blank=True)
     status = models.IntegerField('状态', default=0, choices=STATUS_SIZES) # 0,进行中; 1,已完成
+    device_id = models.CharField('设备ID', max_length=50, blank=True)
 
     class Meta:
         ordering = ['create_at']

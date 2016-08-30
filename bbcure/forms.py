@@ -18,3 +18,4 @@ class CureDataImageForm(forms.ModelForm):
     class Meta:
         model = CureData
         fields = '__all__'
+        # widgets = {'device': forms.HiddenInput()}
