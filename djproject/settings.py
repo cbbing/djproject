@@ -31,14 +31,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # 'grappelli',
+    'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'jobs',
-    'polls',
+    # 'jobs',
+    # 'polls',
     'videosearch',
     'bbcure',
 ]
@@ -67,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -85,10 +88,10 @@ WSGI_APPLICATION = 'djproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
+        'NAME': 'se',
+        'USER': 'abc',
+        'PASSWORD': 'adc',
+        'HOST': '127.0.0.1',
         'PORT': 3306,
     }
 }
@@ -140,3 +143,6 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'videosearch/static/videosearch'),
     os.path.join(BASE_DIR, 'videosearch/static/videosearch/common'),
 )
+
+MEDIA_ROOT = './Data/media/'
+# MEDIA_URL='/media/'
