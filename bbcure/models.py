@@ -25,5 +25,5 @@ class CureData(models.Model):
         ordering = ['create_at']
 
     def __unicode__(self):
-        return self.name
+        return self.name + "\t" +  str(self.create_at)[:19]
 
