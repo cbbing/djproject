@@ -16,6 +16,8 @@ urlpatterns = [
     url(r'^platforms$', views.platforms, name='platforms'),
     url(r'^brokermap', views.brokermap, name='platforms'),
 
+    url(r'^listporjects', views.listporjects, name='listprojects')
+
     #url(r'^platform_config$', views.platform_config, name='platform_config')
 
 

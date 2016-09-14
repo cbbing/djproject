@@ -21,8 +21,9 @@ from django.forms.models import modelformset_factory, modelform_factory
 from django.views.generic import RedirectView, TemplateView, ListView,DetailView, FormView, UpdateView
 import re
 import copy
+import requests
 
-
+SERVER_URL = "http://101.200.184.162:6800/"
 
 class IndexView(TemplateView):
     template_name = 'videosearch/index.html'
@@ -161,6 +162,13 @@ def brokermap(request):
     # print repr(userData)
     # print encodejson
     return render(request, 'videosearch/broker-map.html', {'userData': SafeString(encodejson), 'dict_counts':dict_counts})
+
+def listporjects(request):
+    r = requests.get(SERVER_URL+'listprojects.json')
+    encodejson = json.loads(r.text)
+    projects = encodejson['projects']
+    print projects
+
 
 
 
