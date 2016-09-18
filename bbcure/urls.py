@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
     url(r'^update_data/$', views.update_data),
     url(r'^success/$', views.success),
+    url(r'^max_date/(.+)/$', views.max_date),
 
 
 

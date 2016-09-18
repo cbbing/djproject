@@ -10,6 +10,8 @@ from bbcure.forms import CureDataForm
 from bbcure.forms import CureDataImageForm
 from models import CureData
 from djproject.settings import MEDIA_ROOT
+from django.db import connection
+import hashlib
 
 # Create your views here.
 class IndexView(TemplateView):
@@ -27,6 +29,7 @@ def update_data(request):
 
         # form = CureDataForm(request.POST, request.FILES)
         if form.is_valid():
+            form.uuid  = hashlib.md5((form.name + form.create_at).encode('utf8')).hexdigest()
             image = form.save()
             print image.image.url
             # handle_uploaded_file(request.FILES['image'])
@@ -55,6 +58,17 @@ def update_data(request):
 
 def success(request):
     return render_to_response('bbcure/success.html')
+
+def max_date(request, param1):
+    print param1
+    objects = CureData.objects.filter(name=param1).order_by('-create_at')
+    if len(objects):
+        d = str(objects[0].create_at)[:19]
+        d = d.replace('09', '08')
+        print d
+    else:
+        d = '2010-01-01 00:00:00'
+    return HttpResponse(d, status=200)
 
 def search(request):
     if 'q' in request.GET:
