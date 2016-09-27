@@ -30,4 +30,5 @@ urlpatterns = [
     url(r'^polls/', include('polls.urls', namespace='polls')),
     url(r'^videosearch/', include('videosearch.urls', namespace='videosearch')),
     url(r'^bbcure/', include('bbcure.urls', namespace='bbcure')),
+    url(r'^scrapyds/', include('scrapyds.urls', namespace='scrapyds')),
 ]

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # 'polls',
     'videosearch',
     'bbcure',
+    'scrapyds',
 ]
 
 MIDDLEWARE_CLASSES = [

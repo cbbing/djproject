@@ -127,3 +127,13 @@ class Task(models.Model):
     def __unicode__(self):
         return self.name
 
+class Job(models.Model):
+    project = models.CharField(verbose_name='Project', max_length=30)
+    spider = models.CharField(verbose_name='Spider', max_length=80)
+    jobid = models.CharField(verbose_name='JobID', max_length=50)
+    start_time = models.DateTimeField(verbose_name='开始日期')
+    end_time = models.DateTimeField(verbose_name="结束日期")
+    status = models.CharField(verbose_name='状态', max_length=30, default='')
+    node_name = models.TextField(verbose_name='机器名', max_length=30, default='')
+
+

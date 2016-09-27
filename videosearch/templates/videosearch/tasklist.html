@@ -91,19 +91,16 @@
 			<thead>
 
 				<tr>
-
 					<th style="width:8px;"><input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /></th>
-
-					<th>名称</th>
-
-					<th class="hidden-480">状态</th>
-
-					<th class="hidden-480">进度</th>
-
-					<th class="hidden-480">抓取平台</th>
-					<th class="hidden-480">创建时间</th>
-					<th class="hidden-480">操作</th>
-
+					<th>Project</th>
+					<th class="hidden-480">Spider</th>
+					<th class="hidden-480">Job</th>
+					<th class="hidden-480">start_time</th>
+					<th class="hidden-480">end_time</th>
+					<th class="hidden-480">status</th>
+					<th class="hidden-480">node_name</th>
+					<th class="hidden-480">Log</th>
+					<th class="hidden-480">Item</th>
 					<th ></th>
 
 				</tr>
@@ -112,26 +109,29 @@
 
 			<tbody>
 
+
+
 				{% for task in object_list %}
 					<tr class="odd gradeX">
 
 					<td><input type="checkbox" class="checkboxes" value="1" /></td>
 
-					<td><a href="{{ task.id }}">{{ task.name }}</a></td>
+					<td><a href="{{ task.Item }}">{{ task.project }}</a></td>
+					<td class="hidden-480">{{ task.spider }}</td>
+					<td class="hidden-480">{{ task.jobid }}</td>
 
-					<td class="hidden-480">{{ task.status }}</td>
+					<td class="hidden-480">{{ task.start_time }}</td>
 
-					<td class="hidden-480">{{ task.progress }}</td>
+					<td class="center hidden-480">{{ task.end_time}}</td>
+					<td class="center hidden-480">{{ task.status}}</td>
+					<td class="center hidden-480"><a href="{{ task.id }}">Log</a></td>
+					<td class="center hidden-480"><a href="{{ task.id }}">Item</a></td>
 
-					<td class="center hidden-480">{{ task.video_platforms}}</td>
-
-						<td class="center hidden-480">{{ task.create_at}}</td>
-
-					<td ><span class="label label-success"><a href="{{ task.id }}">{{ task.actions }}</a></span></td>
 
 					</tr>
 
 				{% endfor %}
+
 
 			</tbody>
 
