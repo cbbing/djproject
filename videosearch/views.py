@@ -13,8 +13,9 @@ from django.utils.safestring import SafeString
 # Create your views here.
 from django.contrib.auth.decorators import login_required
 from .models import Task, Platform, PlatformConfig, GeneralConfig, PlatformKeys
+from .models import Job
 from .forms import PlatformConfigForm, GeneralConfigForm
-
+from djproject.settings import DATABASES
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory, modelform_factory
 
@@ -22,15 +23,24 @@ from django.views.generic import RedirectView, TemplateView, ListView,DetailView
 import re
 import copy
 import requests
+from sqlalchemy import create_engine
 
-SERVER_URL = "http://101.200.184.162:6800/"
+engine = create_engine(
+    'mysql+mysqldb://{}:{}@{}:3306/{}'.format(DATABASES['default']['USER'], DATABASES['default']['PASSWORD'],
+                                              DATABASES['default']['HOST'],DATABASES['default']['NAME']),
+    connect_args={'charset': 'utf8'},
+    pool_size=8)
+
+SERVER_URL = "http://101.200.184.162:6800"
+
+
 
 class IndexView(TemplateView):
     template_name = 'videosearch/index.html'
 
 class TastListView(ListView):
     template_name = 'videosearch/tasklist.html'
-    model = Task
+    model = Job
 
 # class TaskDetailView(DetailView):
 #     template_name = 'videosearch/taskdetail.html'
@@ -168,6 +178,61 @@ def listporjects(request):
     encodejson = json.loads(r.text)
     projects = encodejson['projects']
     print projects
+
+def jobs(request):
+
+    # 获取可用的project
+    url_p = SERVER_URL + "/listprojects.json"
+    r = requests.get(url_p)
+    enjson = json.loads(r.text)
+    projects = enjson['projects']
+
+    dfs = []
+
+
+    for project in projects:
+        url_j = SERVER_URL + "/listjobs.json?project={}".format(project)
+        r = requests.get(url_j)
+        enjson = json.loads(r.text)
+        if enjson['status'] == 'ok':
+            df_pending = pd.DataFrame(enjson['pending'])
+            df_running = pd.DataFrame(enjson['running'])
+            df_finished = pd.DataFrame(enjson['finished'])
+            df_pending['status'] = 'pending'
+            df_running['status'] = 'running'
+            df_finished['status'] = 'finished'
+
+            df = pd.concat([df_pending, df_running, df_finished])
+            if len(df) == 0:
+                continue
+            df['node_name'] = enjson['node_name']
+            df['project'] = project
+            df['jobid'] = df['id']
+            del df['id']
+            print df.columns
+
+            # df['Log'] = SERVER_URL + "/logs/" + project + "/" + df['spider'] + "/" + df['id'] + ".log"
+            # df['Item'] = SERVER_URL + "/items/" + project + "/" + df['spider'] + "/" + df['id'] + ".jl"
+
+            dfs.append(df)
+
+    df_all = pd.concat(dfs, ignore_index=True)
+    df_all[pd.isnull(df_all)] = '""'
+    print df_all.head()
+
+    sql = "delete from videosearch_job"
+    engine.execute(sql)
+    df.to_sql('videosearch_job', engine, index=False, if_exists='append')
+
+    # pending_data = df_all[df_all['status']=='pending'].to_json(orient='records')
+    # running_data = df_all[df_all['status'] == 'running'].to_json(orient='records')
+    # finished_data = df_all[df_all['status'] == 'finished'].to_json(orient='records')
+    #
+    # datas = [pending_data, running_data, finished_data]
+    # print running_data
+
+    return HttpResponseRedirect("/videosearch/tasklist")
+    # TastListView.as_view()
 
 
 

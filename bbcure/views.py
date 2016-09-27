@@ -29,9 +29,10 @@ def update_data(request):
 
         # form = CureDataForm(request.POST, request.FILES)
         if form.is_valid():
-            form.uuid  = hashlib.md5((form.name + form.create_at).encode('utf8')).hexdigest()
+
+            # form.uuid  = hashlib.md5((form.data.name + form.data.create_at).encode('utf8')).hexdigest()
             image = form.save()
-            print image.image.url
+            # print image.image.url
             # handle_uploaded_file(request.FILES['image'])
 
             cd = form.cleaned_data
@@ -64,7 +65,7 @@ def max_date(request, param1):
     objects = CureData.objects.filter(name=param1).order_by('-create_at')
     if len(objects):
         d = str(objects[0].create_at)[:19]
-        d = d.replace('09', '08')
+        # d = d.replace('09', '08')
         print d
     else:
         d = '2010-01-01 00:00:00'
