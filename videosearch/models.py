@@ -135,5 +135,5 @@ class Job(models.Model):
     end_time = models.DateTimeField(verbose_name="结束日期")
     status = models.CharField(verbose_name='状态', max_length=30, default='')
     node_name = models.TextField(verbose_name='机器名', max_length=30, default='')
-
-
+    log = models.TextField(verbose_name='Log', max_length=120, default='')
+    item = models.TextField(verbose_name='Item', max_length=120, default='')

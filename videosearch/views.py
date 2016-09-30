@@ -7,7 +7,7 @@ import pandas as pd
 import json
 
 from django.shortcuts import render, get_object_or_404, render_to_response
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.utils.safestring import SafeString
 
 # Create your views here.
@@ -211,8 +211,8 @@ def jobs(request):
             del df['id']
             print df.columns
 
-            # df['Log'] = SERVER_URL + "/logs/" + project + "/" + df['spider'] + "/" + df['id'] + ".log"
-            # df['Item'] = SERVER_URL + "/items/" + project + "/" + df['spider'] + "/" + df['id'] + ".jl"
+            df['log'] = SERVER_URL + "/logs/" + project + "/" + df['spider'] + "/" + df['jobid'] + ".log"
+            df['item'] = SERVER_URL + "/items/" + project + "/" + df['spider'] + "/" + df['jobid'] + ".jl"
 
             dfs.append(df)
 
@@ -234,7 +234,19 @@ def jobs(request):
     return HttpResponseRedirect("/videosearch/tasklist")
     # TastListView.as_view()
 
-
+def canceljob(request, jobid):
+    # jobid = request.GET.get('jobid')
+    sql = "select * from videosearch_job where jobid='{}'".format(jobid)
+    df = pd.read_sql(sql, engine)
+    if len(df):
+        status = df.ix[0, 'status']
+        if status in ('running', 'pending'):
+            data = {'project':df.ix[0, 'project'],
+                    'job':jobid}
+            r = requests.post(SERVER_URL+'/cancel.json', data=data)
+            return HttpResponse(r.text, status=200)
+        else:
+            return HttpResponse("jobid({}): 已经停止了, 无需再停止!".format(jobid), status=200)
 
 
 
