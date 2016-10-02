@@ -22,79 +22,6 @@ class GeneralConfig(models.Model):
 
 class PlatformConfig(models.Model):
 
-    # '10000': {'全部':True, '0-10分钟':False, '10-30分钟':False, ''30-60分钟':False, '60分钟以上':'False'}
-    # platform_youku = models.ForeignKey(Platform)
-    # lentype_youku = models.CharField('时长类型', max_length=10)
-    #
-    # platform_tudou = models.ForeignKey(Platform)
-    # lentype_tudou = models.CharField('时长类型', max_length=10)
-    #
-    # platform_iqiyi = models.ForeignKey(Platform)
-    # lentype_iqiyi = models.CharField('时长类型', max_length=10)
-    #
-    # platform_letv = models.ForeignKey(Platform)
-    # lentype_letv = models.CharField('时长类型', max_length=10)
-    #
-    # platform_sohu = models.ForeignKey(Platform)
-    # lentype_sohu = models.CharField('时长类型', max_length=10)
-    #
-    # platform_qq = models.ForeignKey(Platform)
-    # lentype_qq = models.CharField('时长类型', max_length=10)
-    #
-    # platform_sina = models.ForeignKey(Platform)
-    # lentype_sina = models.CharField('时长类型', max_length=10)
-    #
-    # platform_huashu = models.ForeignKey(Platform)
-    # lentype_huashu = models.CharField('时长类型', max_length=10)
-    #
-    # platform_kankan = models.ForeignKey(Platform)
-    # lentype_kankan = models.CharField('时长类型', max_length=10)
-    #
-    # platform_56 = models.ForeignKey(Platform)
-    # lentype_56 = models.CharField('时长类型', max_length=10)
-    #
-    # platform_ku6 = models.ForeignKey(Platform)
-    # lentype_ku6 = models.CharField('时长类型', max_length=10)
-    #
-    # platform_baomihua = models.ForeignKey(Platform)
-    # lentype_baomihua = models.CharField('时长类型', max_length=10)
-    #
-    # platform_cctv = models.ForeignKey(Platform)
-    # lentype_cctv = models.CharField('时长类型', max_length=10)
-    #
-    # platform_163 = models.ForeignKey(Platform)
-    # lentype_163 = models.CharField('时长类型', max_length=10)
-    #
-    # platform_bilibili = models.ForeignKey(Platform)
-    # lentype_bilibili = models.CharField('时长类型', max_length=10)
-    #
-    # platform_hunantv = models.ForeignKey(Platform)
-    # lentype_hunantv = models.CharField('时长类型', max_length=10)
-    #
-    # platform_baofeng = models.ForeignKey(Platform)
-    # lentype_baofeng = models.CharField('时长类型', max_length=10)
-    #
-    # platform_fun = models.ForeignKey(Platform)
-    # lentype_fun = models.CharField('时长类型', max_length=10)
-    #
-    # platform_pptv = models.ForeignKey(Platform)
-    # lentype_pptv = models.CharField('时长类型', max_length=10)
-    #
-    # platform_tv189 = models.ForeignKey(Platform)
-    # lentype_tv189 = models.CharField('时长类型', max_length=10)
-    #
-    # platform_baidu = models.ForeignKey(Platform)
-    # lentype_baidu = models.CharField('时长类型', max_length=10)
-    #
-    # platform_pipi = models.ForeignKey(Platform)
-    # lentype_pipi = models.CharField('时长类型', max_length=10)
-    #
-    # platform_tangdou = models.ForeignKey(Platform)
-    # lentype_tangdou = models.CharField('时长类型', max_length=10)
-    #
-    # platform_acfun = models.ForeignKey(Platform)
-    # lentype_acfun = models.CharField('时长类型', max_length=10)
-
 
     platform = models.ForeignKey(Platform)
     operation_date = models.DateTimeField('更新时间',default=now())
@@ -137,3 +64,28 @@ class Job(models.Model):
     node_name = models.TextField(verbose_name='机器名', max_length=30, default='')
     log = models.TextField(verbose_name='Log', max_length=120, default='')
     item = models.TextField(verbose_name='Item', max_length=120, default='')
+
+    class Meta:
+        ordering = ['-start_time']
+
+    def __unicode__(self):
+        return self.project + " -> " + self.spider + " -> "+ self.jobid
+
+class NewJob(models.Model):
+    project = models.CharField(verbose_name='Project', max_length=30)
+    spider = models.CharField(verbose_name='Spider', max_length=80)
+
+    def __unicode__(self):
+        return self.project + " -> " + self.spider
+
+class Project(models.Model):
+    project = models.CharField(verbose_name='Project', max_length=30)
+
+    def __unicode__(self):
+        return self.project
+
+class Spider(models.Model):
+    spider = models.CharField(verbose_name='Spider', max_length=80)
+
+    def __unicode__(self):
+        return self.spider

@@ -1,7 +1,7 @@
 #coding=utf-8
 from django import forms
 from django.forms import ModelForm
-from .models import PlatformConfig, GeneralConfig
+from .models import PlatformConfig, GeneralConfig, NewJob, Project, Spider
 
 class GeneralConfigForm(forms.Form):
 
@@ -41,3 +41,25 @@ class GeneralConfigForm(ModelForm):
         #
         #     'operation_date': forms.DateTimeField,
         # }
+
+class NewJobForm(forms.Form):
+    newjobs = NewJob.objects.all()
+    projects = []
+    spiders = []
+    for newjob in newjobs:
+        projects.append(newjob.project)
+        spiders.append(newjob.spider)
+
+    project = forms.CharField(widget=forms.Select
+        (choices=projects, attrs={'class': 'form-control'}))
+
+    spider = forms.CharField(widget=forms.Select
+        (choices=spiders, attrs={'class': 'form-control'}))
+
+
+class NewJobModelForm(ModelForm):
+
+
+    class Meta:
+        model = NewJob
+        fields = "__all__"

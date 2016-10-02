@@ -18,7 +18,8 @@ urlpatterns = [
 
     url(r'^jobs', views.jobs, name='jobs'),
     url(r'^canceljob/(.+)/$', views.canceljob, name='canceljob'),
-    url(r'^listporjects', views.listporjects, name='listprojects'),
+    url(r'^addjob', views.addjob, name='addjob'),
+    url(r'^listporjects$', views.listporjects, name='listprojects'),
 
 
 
