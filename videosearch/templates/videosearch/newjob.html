@@ -1,0 +1,28 @@
+{% extends "videosearch/base.html" %}
+
+
+{% block page_content %}
+<div class="tiles" xmlns="http://www.w3.org/1999/html">
+<form action="" method="post">
+    <!--{% csrf_token %}-->
+
+        <!--{{ form }}-->
+    <label>Spider列表</label>
+    <select name="spider" id="jumpMenu">
+
+        {% for spider in spiders %}
+
+            <option value="{{ spider }}">{{ spider }}</option>
+        {% endfor %}
+    </select>
+
+    <br>
+
+    <p>
+        <input type='submit' value="提交">
+    </p>
+</form>
+
+
+</div>
+{% endblock %}
