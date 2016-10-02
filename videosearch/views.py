@@ -7,14 +7,14 @@ import pandas as pd
 import json
 
 from django.shortcuts import render, get_object_or_404, render_to_response
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.utils.safestring import SafeString
 
 # Create your views here.
 from django.contrib.auth.decorators import login_required
 from .models import Task, Platform, PlatformConfig, GeneralConfig, PlatformKeys
-from .models import Job
-from .forms import PlatformConfigForm, GeneralConfigForm
+from .models import Job, NewJob
+from .forms import PlatformConfigForm, GeneralConfigForm, NewJobForm
 from djproject.settings import DATABASES
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory, modelform_factory
@@ -211,8 +211,8 @@ def jobs(request):
             del df['id']
             print df.columns
 
-            # df['Log'] = SERVER_URL + "/logs/" + project + "/" + df['spider'] + "/" + df['id'] + ".log"
-            # df['Item'] = SERVER_URL + "/items/" + project + "/" + df['spider'] + "/" + df['id'] + ".jl"
+            df['log'] = SERVER_URL + "/logs/" + project + "/" + df['spider'] + "/" + df['jobid'] + ".log"
+            df['item'] = SERVER_URL + "/items/" + project + "/" + df['spider'] + "/" + df['jobid'] + ".jl"
 
             dfs.append(df)
 
@@ -234,6 +234,92 @@ def jobs(request):
     return HttpResponseRedirect("/videosearch/tasklist")
     # TastListView.as_view()
 
+
+def addjob(request):
+
+    url = SERVER_URL + "/listprojects.json"
+    r = requests.get(url)
+    enjson = json.loads(r.text)
+    if enjson['status'] != 'ok':
+        return HttpResponse("get projects list error!")
+
+    projects = enjson['projects']
+    spiders = []
+    for project in projects:
+        url = SERVER_URL + "/listspiders.json?project={}".format(project)
+        r = requests.get(url)
+        enjson_spiders = json.loads(r.text)
+        if enjson_spiders['status'] == 'ok':
+            for spider in enjson_spiders['spiders']:
+                spiders.append(project+" : "+spider)
+
+                # df = pd.DataFrame([(spider, project)], columns=['spider', 'project'])
+                # df.to_sql('videosearch_newjob', engine, index=False, if_exists='append')
+
+    # df_project = pd.DataFrame(projects, columns=['project'])
+    # df_spider = pd.DataFrame(spiders, columns=['spider'])
+    # df_project.to_sql('videosearch_project', engine, index=False, if_exists='append')
+    # df_spider.to_sql('videosearch_spider', engine, index=False, if_exists='append')
+
+
+
+    # newjob = NewJob.objects.last()
+    # form = NewJobForm()#instance=newjob
+    if request.method == 'POST':
+        for key in request.POST:
+            value = request.POST.get(key)
+            print key, value
+            project, spider = value.split(":")
+            data = {"project":project.strip(),
+                    "spider":spider.strip()}
+            url = SERVER_URL + "/schedule.json"
+            r = requests.post(url, data=data)
+            return HttpResponse(r.text, status=200)
+
+    return render_to_response('videosearch/newjob.html', {'spiders':spiders})
+
+def canceljob(request, jobid):
+    sql = "select * from videosearch_job where jobid='{}'".format(jobid)
+    df = pd.read_sql(sql, engine)
+    print df
+
+
+    if request.method == 'POST':
+
+        for key in request.POST:
+            value = request.POST.get(key)
+            print key, value
+
+
+        if len(df):
+            status = df.ix[0, 'status']
+            result = ''
+            if status in ('running', 'pending'):
+                data = {'project': df.ix[0, 'project'],
+                        'job': jobid}
+                r = requests.post(SERVER_URL + '/cancel.json', data=data)
+                result = r.text
+            else:
+                result = "jobid({}): 已经停止了, 本操作不起任何作用!".format(jobid)
+        else:
+            result = "找不到对应的jobid"
+        return render_to_response('videosearch/success.html', {'data':result})
+
+
+    return render_to_response('videosearch/canceljob.html', {'project': df.ix[0, 'project'],
+                                                          'spider': df.ix[0, 'spider'],
+                                                          'jobid': df.ix[0, 'jobid'],
+                                                          'start_time': df.ix[0, 'start_time'],
+                                                          'end_time': df.ix[0, 'end_time'],
+                                                          'status': df.ix[0, 'status']})
+
+
+
+# 111/160
+# 193/200
+# 90/120
+# 79/120
+# 90/120
 
 
 

@@ -17,7 +17,9 @@ urlpatterns = [
     url(r'^brokermap', views.brokermap, name='platforms'),
 
     url(r'^jobs', views.jobs, name='jobs'),
-    url(r'^listporjects', views.listporjects, name='listprojects'),
+    url(r'^canceljob/(.+)/$', views.canceljob, name='canceljob'),
+    url(r'^addjob', views.addjob, name='addjob'),
+    url(r'^listporjects$', views.listporjects, name='listprojects'),
 
 
 

@@ -1,0 +1,44 @@
+{% extends "videosearch/base.html" %}
+
+
+{% block page_content %}
+<div class="tiles" xmlns="http://www.w3.org/1999/html">
+
+<label>确认删除的爬虫Spider</label>
+
+<table border="1">
+  <tr>
+    <th>Project</th>
+    <th>Spider</th>
+    <th>JobID</th>
+    <th>StartTime</th>
+    <th>EndTime</th>
+    <th>Status</th>
+
+  </tr>
+  <tr>
+      <td>{{ project }}</td>
+      <td>{{ spider }}</td>
+      <td>{{ jobid }}</td>
+      <td>{{ start_time | date:"Y-m-d H:i:s"  }}</td>
+      <td>{{ end_time | date:"Y-m-d H:i:s"  }}</td>
+      <td>{{ status }}</td>
+  </tr>
+</table>
+
+
+<form action="" method="post">
+    <!--{% csrf_token %}-->
+
+        <!--{{ form }}-->
+
+
+
+    <p>
+        <input type='submit' value="提交">
+    </p>
+</form>
+
+
+</div>
+{% endblock %}
