@@ -4,7 +4,10 @@
 {% block page_content %}
 <div class="tiles" xmlns="http://www.w3.org/1999/html">
 
-<label>确认删除的爬虫Spider</label>
+<label>确认要停止的爬虫Spider?</label>
+<div>
+    <br>
+</div>
 
 <table border="1">
   <tr>
@@ -25,7 +28,9 @@
       <td>{{ status }}</td>
   </tr>
 </table>
-
+<div>
+    <br>
+</div>
 
 <form action="" method="post">
     <!--{% csrf_token %}-->
@@ -35,7 +40,7 @@
 
 
     <p>
-        <input type='submit' value="提交">
+        <input type='submit' value="停止">
     </p>
 </form>
 

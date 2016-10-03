@@ -20,6 +20,8 @@ from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory, modelform_factory
 
 from django.views.generic import RedirectView, TemplateView, ListView,DetailView, FormView, UpdateView
+from django.contrib.auth.decorators import login_required
+
 import re
 import copy
 import requests
@@ -38,6 +40,7 @@ SERVER_URL = "http://101.200.184.162:6800"
 class IndexView(TemplateView):
     template_name = 'videosearch/index.html'
 
+@login_required(login_url='/login/')
 class TastListView(ListView):
     template_name = 'videosearch/tasklist.html'
     model = Job
@@ -179,6 +182,7 @@ def listporjects(request):
     projects = encodejson['projects']
     print projects
 
+@login_required(login_url='/login/')
 def jobs(request):
 
     # 获取可用的project
@@ -234,7 +238,7 @@ def jobs(request):
     return HttpResponseRedirect("/videosearch/tasklist")
     # TastListView.as_view()
 
-
+@login_required(login_url='/login/')
 def addjob(request):
 
     url = SERVER_URL + "/listprojects.json"
@@ -278,6 +282,7 @@ def addjob(request):
 
     return render_to_response('videosearch/newjob.html', {'spiders':spiders})
 
+@login_required(login_url='/login/')
 def canceljob(request, jobid):
     sql = "select * from videosearch_job where jobid='{}'".format(jobid)
     df = pd.read_sql(sql, engine)
