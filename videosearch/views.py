@@ -40,7 +40,7 @@ SERVER_URL = "http://101.200.184.162:6800"
 class IndexView(TemplateView):
     template_name = 'videosearch/index.html'
 
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 class TastListView(ListView):
     template_name = 'videosearch/tasklist.html'
     model = Job
@@ -56,7 +56,7 @@ class TastListView(ListView):
 #         return context
 
 
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 def general_config(request):
 
     config = GeneralConfig.objects.last()
@@ -72,7 +72,7 @@ def general_config(request):
         return HttpResponseRedirect('/')
     return render_to_response('videosearch/generalconfig.html', locals())
 
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 def platform_config(request):
 
     platformConfigFormSet = modelformset_factory(PlatformConfig,
@@ -238,7 +238,7 @@ def jobs(request):
     return HttpResponseRedirect("/videosearch/tasklist")
     # TastListView.as_view()
 
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 def addjob(request):
 
     url = SERVER_URL + "/listprojects.json"
@@ -282,7 +282,7 @@ def addjob(request):
 
     return render_to_response('videosearch/newjob.html', {'spiders':spiders})
 
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 def canceljob(request, jobid):
     sql = "select * from videosearch_job where jobid='{}'".format(jobid)
     df = pd.read_sql(sql, engine)
