@@ -91,8 +91,9 @@
 			<thead>
 
 				<tr>
-					<th style="width:8px;"><input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /></th>
-					<th>Project</th>
+					<!--<th style="width:8px;"><input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /></th>-->
+					<!--<th>Project</th>-->
+					<th>TaskId</th>
 					<th class="hidden-480">Spider</th>
 					<th class="hidden-480">Job</th>
 					<th class="hidden-480">start_time</th>
@@ -115,9 +116,10 @@
 				{% for task in object_list %}
 					<tr class="odd gradeX">
 
-					<td><input type="checkbox" class="checkboxes" value="1" /></td>
+					<!--<td><input type="checkbox" class="checkboxes" value="1" /></td>-->
 
-					<td>{{ task.project }}</td>
+					<!--<td>{{ task.project }}</td>-->
+					<td>{{ task.scrapy_task_id }}</td>
 					<td class="center hidden-480">{{ task.spider }}</td>
 					<td class="center hidden-480"><a href="{{ task.item }}">{{ task.jobid }}</a></td>
 					<td class="center hidden-480">{{ task.start_time | date:"Y-m-d H:i:s" }}</td>
