@@ -194,6 +194,15 @@ def jobs(request):
     dfs = []
 
 
+    job_scrapyid_dict = {}
+    try:
+        sql = "SELECT * FROM scrapyd_task"
+        df = pd.read_sql(sql, engine)
+        for ix, row in df.iterrows():
+            job_scrapyid_dict[row['jobid']] = str(row['scrapy_task_id'])
+    except Exception,e:
+        print e
+
     for project in projects:
         url_j = SERVER_URL + "/listjobs.json?project={}".format(project)
         r = requests.get(url_j)
@@ -213,7 +222,10 @@ def jobs(request):
             df['project'] = project
             df['jobid'] = df['id']
             del df['id']
+
+            df['scrapy_task_id'] = df['jobid'].apply(lambda x : job_scrapyid_dict.get(x, '-1'))
             print df.columns
+            print df['scrapy_task_id']
 
             df['log'] = SERVER_URL + "/logs/" + project + "/" + df['spider'] + "/" + df['jobid'] + ".log"
             df['item'] = SERVER_URL + "/items/" + project + "/" + df['spider'] + "/" + df['jobid'] + ".jl"
@@ -221,7 +233,11 @@ def jobs(request):
             dfs.append(df)
 
     df_all = pd.concat(dfs, ignore_index=True)
-    df_all[pd.isnull(df_all)] = '""'
+    print df_all.head()
+    try:
+        df_all[pd.isnull(df_all)] = '""'
+    except Exception,e:
+        print e
     print df_all.head()
 
     sql = "delete from videosearch_job"
