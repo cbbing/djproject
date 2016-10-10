@@ -266,6 +266,9 @@ def addjob(request):
     projects = enjson['projects']
     spiders = []
     for project in projects:
+        if project == 'default':
+            continue
+
         url = SERVER_URL + "/listspiders.json?project={}".format(project)
         r = requests.get(url)
         enjson_spiders = json.loads(r.text)
