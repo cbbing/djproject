@@ -43,66 +43,67 @@ class IndexView(TemplateView):
 # @login_required(login_url='/login/')
 class TastListView(ListView):
 
-    # 获取可用的project
-    url_p = SERVER_URL + "/listprojects.json"
-    r = requests.get(url_p)
-    enjson = json.loads(r.text)
-    projects = enjson['projects']
-
-    dfs = []
-
-    job_scrapyid_dict = {}
-    try:
-        sql = "SELECT * FROM scrapyd_task"
-        df = pd.read_sql(sql, engine)
-        for ix, row in df.iterrows():
-            job_scrapyid_dict[row['jobid']] = str(row['scrapy_task_id'])
-    except Exception, e:
-        print e
-
-    for project in projects:
-        url_j = SERVER_URL + "/listjobs.json?project={}".format(project)
-        r = requests.get(url_j)
-        enjson = json.loads(r.text)
-        if enjson['status'] == 'ok':
-            df_pending = pd.DataFrame(enjson['pending'])
-            df_running = pd.DataFrame(enjson['running'])
-            df_finished = pd.DataFrame(enjson['finished'])
-            df_pending['status'] = 'pending'
-            df_running['status'] = 'running'
-            df_finished['status'] = 'finished'
-
-            df = pd.concat([df_pending, df_running, df_finished])
-            if len(df) == 0:
-                continue
-            df['node_name'] = enjson['node_name']
-            df['project'] = project
-            df['jobid'] = df['id']
-            del df['id']
-
-            df['scrapy_task_id'] = df['jobid'].apply(lambda x: job_scrapyid_dict.get(x, '-1'))
-            print df.columns
-            print df['scrapy_task_id']
-
-            df['log'] = SERVER_URL + "/logs/" + project + "/" + df['spider'] + "/" + df['jobid'] + ".log"
-            df['item'] = SERVER_URL + "/items/" + project + "/" + df['spider'] + "/" + df['jobid'] + ".jl"
-
-            dfs.append(df)
-
-    df_all = pd.concat(dfs, ignore_index=True)
-    print df_all.head()
-    try:
-        df_all[pd.isnull(df_all)] = '""'
-    except Exception, e:
-        print e
-    print df_all.head()
-
-    sql = "delete from videosearch_job"
-    engine.execute(sql)
-    df.to_sql('videosearch_job', engine, index=False, if_exists='append')
-
     template_name = 'videosearch/tasklist.html'
     model = Job
+
+    def __init__(self):
+        # 获取可用的project
+        url_p = SERVER_URL + "/listprojects.json"
+        r = requests.get(url_p)
+        enjson = json.loads(r.text)
+        projects = enjson['projects']
+
+        dfs = []
+
+        job_scrapyid_dict = {}
+        try:
+            sql = "SELECT * FROM scrapyd_task"
+            df = pd.read_sql(sql, engine)
+            for ix, row in df.iterrows():
+                job_scrapyid_dict[row['jobid']] = str(row['scrapy_task_id'])
+        except Exception, e:
+            print e
+
+        for project in projects:
+            url_j = SERVER_URL + "/listjobs.json?project={}".format(project)
+            r = requests.get(url_j)
+            enjson = json.loads(r.text)
+            if enjson['status'] == 'ok':
+                df_pending = pd.DataFrame(enjson['pending'])
+                df_running = pd.DataFrame(enjson['running'])
+                df_finished = pd.DataFrame(enjson['finished'])
+                df_pending['status'] = 'pending'
+                df_running['status'] = 'running'
+                df_finished['status'] = 'finished'
+
+                df = pd.concat([df_pending, df_running, df_finished])
+                if len(df) == 0:
+                    continue
+                df['node_name'] = enjson['node_name']
+                df['project'] = project
+                df['jobid'] = df['id']
+                del df['id']
+
+                df['scrapy_task_id'] = df['jobid'].apply(lambda x: job_scrapyid_dict.get(x, '-1'))
+                print df.columns
+                print df['scrapy_task_id']
+
+                df['log'] = SERVER_URL + "/logs/" + project + "/" + df['spider'] + "/" + df['jobid'] + ".log"
+                df['item'] = SERVER_URL + "/items/" + project + "/" + df['spider'] + "/" + df['jobid'] + ".jl"
+
+                dfs.append(df)
+
+        df_all = pd.concat(dfs, ignore_index=True)
+        print df_all.head()
+        try:
+            df_all[pd.isnull(df_all)] = '""'
+        except Exception, e:
+            print e
+        print df_all.head()
+
+        sql = "delete from videosearch_job"
+        engine.execute(sql)
+        df.to_sql('videosearch_job', engine, index=False, if_exists='append')
 
 # class TaskDetailView(DetailView):
 #     template_name = 'videosearch/taskdetail.html'
