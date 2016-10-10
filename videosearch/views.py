@@ -357,7 +357,8 @@ def addjob(request):
                     "spider":spider.strip()}
             url = SERVER_URL + "/schedule.json"
             r = requests.post(url, data=data)
-            return HttpResponse(r.text, status=200)
+            # return HttpResponse(r.text, status=200)
+            return render_to_response('videosearch/success.html', {'data': r.text})
 
     return render_to_response('videosearch/newjob.html', {'spiders':spiders})
 
