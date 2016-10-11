@@ -132,6 +132,7 @@ class Project(models.Model):
 
 class Spider(models.Model):
     spider = models.CharField(verbose_name='Spider', max_length=80)
+    project = models.ForeignKey(Project)
 
     def __unicode__(self):
         return self.spider
@@ -141,7 +142,7 @@ class Spider(models.Model):
         verbose_name_plural = verbose_name
 
 class Job(models.Model):
-    project = models.ForeignKey(Project)
+    # project = models.ForeignKey(Project)
     spider = models.ForeignKey(Spider)
     # project = models.CharField(verbose_name='Project', max_length=30)
     # spider = models.CharField(verbose_name='Spider', max_length=80)
@@ -150,8 +151,8 @@ class Job(models.Model):
     start_time = models.DateTimeField(verbose_name='开始日期')
     end_time = models.DateTimeField(verbose_name="结束日期")
     status = models.CharField(verbose_name='状态', max_length=30, default='')
-    node_name = models.TextField(verbose_name='机器名', max_length=30, default='')
-    log = models.TextField(verbose_name='Log', max_length=120, default='')
+    node_name = models.TextField(verbose_name='机器名', max_length=30, default='test')
+    log = models.TextField(verbose_name='Log', max_length=120, default='null')
     # item = models.TextField(verbose_name='Item', max_length=120, default='')
 
 
