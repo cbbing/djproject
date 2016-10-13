@@ -1,3 +1,5 @@
+#coding:utf-8
+
 import xadmin
 from xadmin import views
 from .models import IDC, Host, MaintainLog, HostGroup, AccessRecord
@@ -5,6 +7,7 @@ from .models import Job, Project, Spider
 from xadmin.layout import Main, TabHolder, Tab, Fieldset, Row, Col, AppendedText, Side
 from xadmin.plugins.inline import Inline
 from xadmin.plugins.batch import BatchChangeAction
+from .views import MyAction
 
 class MainDashboard(object):
     widgets = [
@@ -15,7 +18,7 @@ class MainDashboard(object):
                 'o':'-guarantee_date'}},
         ],
         [
-            {"type": "qbutton", "title": "Quick Start", "btns": [{'model': Host}, {'model':IDC}, {'title': "Google", 'url': "http://www.google.com"}]},
+            # {"type": "qbutton", "title": "Quick Start", "btns": [{'model': Host}, {'model':IDC}, {'title': "Google", 'url': "http://www.google.com"}]},
             {"type": "addform", "model": MaintainLog},
         ]
     ]
@@ -34,6 +37,36 @@ class GlobalSetting(object):
         Host: 'fa fa-laptop', IDC: 'fa fa-cloud'
     }
     menu_style = 'default'#'accordion'
+
+    # 设置base_site.html的Title
+    site_title = 'Scrapy爬虫管理系统'
+    # 设置base_site.html的Footer
+    site_footer = '自然晟'
+
+    # 菜单设置
+    # def get_site_menu(self):
+    #     return (
+    #         {'title': '爬虫管理', #'perm': self.get_model_perm(Job, 'view'),
+    #          'menus': (
+    #             {'title': 'Job', 'url': self.get_model_url(Job, 'changelist')},
+    #             {'title': '信托公司', 'url': self.get_model_url(Job, 'changelist')}
+    #         )},
+    #     )
+
+
+
+    #设置主题可选择
+    enable_themes = True
+    use_bootswatch = True
+
+    # 菜单折叠
+    # menu_style = 'accordion'
+
+    apps_label_title = {
+        'auth': '权限管理',
+        'user': '用户管理'
+    }
+
 xadmin.site.register(views.CommAdminView, GlobalSetting)
 
 
@@ -202,11 +235,20 @@ class JobAdmin(object):
     list_display = ('spider', 'jobid', 'scrapy_task_id', 'start_time', 'end_time', 'status')
     list_display_links = ('jobid',)
 
+    #指定可以过滤的列的名字, 系统会自动生成搜索器
+    list_filter = ('spider', 'jobid', 'scrapy_task_id', 'start_time')
+
     search_fields = ['jobid', 'scrapy_task_id']
     style_fields = {'jobs': 'checkbox-inline'}
 
+    actions = [MyAction, ]
+
+class SpiderAdmin(object):
+    list_display = ('spider', 'project')
+
+
 xadmin.site.register(Job, JobAdmin)
-xadmin.site.register(Spider)
+xadmin.site.register(Spider, SpiderAdmin)
 xadmin.site.register(Project)
 
 xadmin.site.register(IDC, IDCAdmin)

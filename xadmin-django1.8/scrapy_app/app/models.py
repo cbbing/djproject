@@ -3,6 +3,7 @@
 from django.db import models
 
 
+
 SERVER_STATUS = (
     (0, u"Normal"),
     (1, u"Down"),
@@ -147,7 +148,7 @@ class Job(models.Model):
     # project = models.CharField(verbose_name='Project', max_length=30)
     # spider = models.CharField(verbose_name='Spider', max_length=80)
     jobid = models.CharField(verbose_name='JobID', max_length=50)
-    scrapy_task_id = models.IntegerField(verbose_name='爬虫任务I', default=-1)
+    scrapy_task_id = models.IntegerField(verbose_name='scrapy_task_id', default=-1)
     start_time = models.DateTimeField(verbose_name='开始日期')
     end_time = models.DateTimeField(verbose_name="结束日期")
     status = models.CharField(verbose_name='状态', max_length=30, default='')
