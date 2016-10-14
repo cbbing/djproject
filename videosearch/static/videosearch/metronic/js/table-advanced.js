@@ -40,8 +40,8 @@ var TableAdvanced = function () {
             ],
             "aaSorting": [[1, 'asc']],
              "aLengthMenu": [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
+                [10, 20, 40, -1],
+                [10, 20, 40, "All"] // change per page values here
             ],
             // set the initial value
             "iDisplayLength": 10,
@@ -79,8 +79,8 @@ var TableAdvanced = function () {
             ],
             "aaSorting": [[1, 'asc']],
              "aLengthMenu": [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
+                [10, 20, 40, -1],
+                [10, 20, 40, "All"] // change per page values here
             ],
             // set the initial value
             "iDisplayLength": 10,
