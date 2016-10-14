@@ -64,7 +64,7 @@ class Job(models.Model):
     node_name = models.TextField(verbose_name='机器名', max_length=30, default='')
     log = models.TextField(verbose_name='Log', max_length=120, default='')
     item = models.TextField(verbose_name='Item', max_length=120, default='')
-    scrapy_task_id = models.IntegerField(verbose_name='scrapy_task_id', default=-1)
+    scrapy_task_id = models.IntegerField(verbose_name='scrapy_task_id', default=0)
 
     class Meta:
         ordering = ['-start_time']

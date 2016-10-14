@@ -46,12 +46,12 @@ class TastListView(ListView):
     template_name = 'videosearch/tasklist.html'
     model = Job
 
-    def __init__(self):
+    def __init__(self, project):
         # 获取可用的project
-        url_p = SERVER_URL + "/listprojects.json"
-        r = requests.get(url_p)
-        enjson = json.loads(r.text)
-        projects = enjson['projects']
+        # url_p = SERVER_URL + "/listprojects.json"
+        # r = requests.get(url_p)
+        # enjson = json.loads(r.text)
+        # projects = enjson['projects']
 
         dfs = []
 
@@ -64,21 +64,21 @@ class TastListView(ListView):
         except Exception, e:
             print e
 
-        for project in projects:
-            url_j = SERVER_URL + "/listjobs.json?project={}".format(project)
-            r = requests.get(url_j)
-            enjson = json.loads(r.text)
-            if enjson['status'] == 'ok':
-                df_pending = pd.DataFrame(enjson['pending'])
-                df_running = pd.DataFrame(enjson['running'])
-                df_finished = pd.DataFrame(enjson['finished'])
-                df_pending['status'] = 'pending'
-                df_running['status'] = 'running'
-                df_finished['status'] = 'finished'
+        # for project in projects:
 
-                df = pd.concat([df_pending, df_running, df_finished])
-                if len(df) == 0:
-                    continue
+        url_j = SERVER_URL + "/listjobs.json?project={}".format(project)
+        r = requests.get(url_j)
+        enjson = json.loads(r.text)
+        if enjson['status'] == 'ok':
+            df_pending = pd.DataFrame(enjson['pending'])
+            df_running = pd.DataFrame(enjson['running'])
+            df_finished = pd.DataFrame(enjson['finished'])
+            df_pending['status'] = 'pending'
+            df_running['status'] = 'running'
+            df_finished['status'] = 'finished'
+
+            df = pd.concat([df_pending, df_running, df_finished])
+            if len(df) > 0:
                 df['node_name'] = enjson['node_name']
                 df['project'] = project
                 df['jobid'] = df['id']
@@ -93,17 +93,33 @@ class TastListView(ListView):
 
                 dfs.append(df)
 
-        df_all = pd.concat(dfs, ignore_index=True)
-        print df_all.head()
         try:
+            df_all = pd.concat(dfs, ignore_index=True)
+            print df_all.head()
             df_all[pd.isnull(df_all)] = '""'
+            print df_all.head()
+
+            sql = "delete from videosearch_job"
+            engine.execute(sql)
+            df_all.to_sql('videosearch_job', engine, index=False, if_exists='append')
         except Exception, e:
             print e
-        print df_all.head()
 
-        sql = "delete from videosearch_job"
-        engine.execute(sql)
-        df.to_sql('videosearch_job', engine, index=False, if_exists='append')
+
+
+class TextScrapyList(TastListView):
+    template_name = 'videosearch/tasklistsort.html'
+    model = Job
+
+    def __init__(self, project="TextScrapy"):
+        TastListView.__init__(self, project)
+
+class FundScrapyList(TastListView):
+    template_name = 'videosearch/tasklistsort.html'
+    model = Job
+
+    def __init__(self, project="FundSpider"):
+        TastListView.__init__(self, project)
 
 # class TaskDetailView(DetailView):
 #     template_name = 'videosearch/taskdetail.html'
@@ -187,6 +203,9 @@ def index(request):
     lastest_task_list = Task.objects.order_by('-create_at')
     context = { 'lastest_task_list':lastest_task_list}
     return render(request, 'videosearch/index.html', context)
+
+def table_advanced(request):
+    return render_to_response('videosearch/table_advanced.html')
 
 def task_detail(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
