@@ -47,6 +47,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
             <link rel="stylesheet" href="{% static "metronic/css/fullcalendar.css" %}">
             <link rel="stylesheet" href="{% static "metronic/css/jqvmap.css" %}">
             <link rel="stylesheet" href="{% static "metronic/css/jquery.easy-pie-chart.css" %}">
+
+            <link rel="stylesheet" type="text/css" href="{% static "metronic/css/select2_metro.css" %}"/>
+            <link rel="stylesheet" href="{% static "metronic/css/DT_bootstrap.css" %}">
+
             <!-- END PAGE LEVEL STYLES -->
         {% endblock %}
 
@@ -130,18 +134,25 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                     {% block data_test %}
                         {% block data_test_isactive %}
                             <li class="">
+                                <a href="/videosearch/addjob">
+                                    <i class="icon-th-list"></i>
+                                    <span class="title">新建任务</span>
+                                </a>
+                            </li>
+
+                            <li class="active">
                                 {% endblock %}
                                 <a href="javascript:;">
                                     <i class="icon-th-list"></i>
-                                    <span class="title">计划任务</span>
+                                    <span class="title">任务列表</span>
                                     <span class="arrow "></span>
                                 </a>
                                 <ul class="sub-menu">
                                     <li>
-                                        <a href="/videosearch/addjob">新建任务</a>
+                                        <a href="/videosearch/tasklist/textscrapy">TextScrapy</a>
                                     </li>
                                     <li>
-                                        <a href="/videosearch/jobs">任务列表</a>
+                                        <a href="/videosearch/tasklist/fundspider">FundSpider</a>
                                     </li>
 
                                 </ul>
@@ -153,7 +164,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 
 
                     {% block user_manage %}
-                        <li class="">
+                        <li class="active">
                             <a href="javascript:;">
                                 <i class="icon-user"></i>
                                 <span class="title">用户管理</span>
@@ -327,9 +338,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
             {% endblock %}
         </div>
         <!-- END PAGE -->
+        {% include 'videosearch/footer.html' %}
     </div>
     <!-- END CONTAINER -->
-    {% include 'videosearch/footer.html' %}
+
 
     {% block javascript_load %}
         <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
@@ -366,10 +378,18 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
         <script src="{% static "metronic/js/fullcalendar.min.js" %}"></script>
         <script src="{% static "metronic/js/jquery.easy-pie-chart.js" %}"></script>
         <script src="{% static "metronic/js/jquery.sparkline.min.js" %}"></script>
+
+        <script type="text/javascript" src="{% static "metronic/js/select2.min.js" %}"></script>
+	    <script type="text/javascript" src="{% static "metronic/js/jquery.dataTables.min.js" %}"></script>
+	    <script type="text/javascript" src="{% static "metronic/js/DT_bootstrap.js" %}"></script>
+
         <!-- END PAGE LEVEL PLUGINS -->
         <!-- BEGIN PAGE LEVEL SCRIPTS -->
         <script src="{% static "metronic/js/app.js" %}"></script>
         <script src="{% static "metronic/js/index.js" %}"></script>
+
+        <script src="{% static "metronic/js/table-advanced.js" %}"></script>
+        <script src="{% static "metronic/js/table-managed.js" %}"></script>
 
         <script>
             $(document).ready(function () {
@@ -389,6 +409,8 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
         <script>
             jQuery(document).ready(function () {
                 App.init(); // initlayout and core plugins
+                TableAdvanced.init();
+                TableManaged.init();
                 Index.init();
                 Index.initJQVMAP(); // init index page's custom scripts
                 Index.initCalendar(); // init index page's custom scripts
