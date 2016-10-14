@@ -1,0 +1,113 @@
+{% extends "videosearch/base.html" %}
+
+
+
+<!-- BEGIN BODY -->
+
+{% block page_content %}
+
+	<div class="row-fluid">
+
+		<!-- BEGIN EXAMPLE TABLE PORTLET-->
+
+		<div class="portlet box blue">
+
+			<div class="portlet-title">
+
+				<div class="caption"><i class="icon-globe"></i>Spider List</div>
+
+				<div class="actions">
+
+					<div class="btn-group">
+
+						<a class="btn" href="#" data-toggle="dropdown">
+
+						显示/隐藏列
+
+						<i class="icon-angle-down"></i>
+
+						</a>
+
+						<div id="sample_2_column_toggler" class="dropdown-menu hold-on-click dropdown-checkboxes pull-right">
+
+							<label><input type="checkbox" checked data-column="0" value="0">TaskId</label>
+
+							<label><input type="checkbox" checked data-column="1">Spider</label>
+
+							<label><input type="checkbox" checked data-column="2">Job</label>
+
+							<label><input type="checkbox" checked data-column="3">start_time</label>
+
+							<label><input type="checkbox" checked data-column="4">end_time</label>
+							<label><input type="checkbox" checked data-column="5">status</label>
+							<label><input type="checkbox" checked data-column="6">node_name</label>
+							<label><input type="checkbox" checked data-column="7">Log</label>
+							<label><input type="checkbox" checked data-column="8">operation</label>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<div class="portlet-body">
+
+				<table class="table table-striped table-bordered table-hover table-full-width" id="sample_2">
+
+					<thead>
+
+						<tr>
+							<!--<th style="width:8px;"><input type="checkbox" class="group-checkable" data-set="#sample_2 .checkboxes" /></th>-->
+							<th>TaskId</th>
+							<th>Spider</th>
+							<th class="hidden-480">Job</th>
+							<th class="hidden-480">start_time</th>
+							<th class="hidden-480">end_time</th>
+							<th class="hidden-480">status</th>
+							<th class="hidden-480">node_name</th>
+							<th class="hidden-480">Log</th>
+							<th class="hidden-480">operation</th>
+
+						</tr>
+
+					</thead>
+
+					<tbody>
+
+						{% for task in object_list %}
+							<tr>
+
+								<!--<td><input type="checkbox" class="checkboxes" value="1" /></td>-->
+
+								<!--<td>{{ task.project }}</td>-->
+								<td>{{ task.scrapy_task_id }}</td>
+								<td>{{ task.spider }}</td>
+								<td class="center hidden-480"><a href="{{ task.item }}" target="_blank">{{ task.jobid }}</a></td>
+								<td class="center hidden-480">{{ task.start_time | date:"Y-m-d H:i:s" }}</td>
+								<td class="center hidden-480">{{ task.end_time | date:"Y-m-d H:i:s" }}</td>
+								<td class="center hidden-480">{{ task.status}}</td>
+								<td class="center hidden-480">{{ task.node_name}}</td>
+								<td class="center hidden-480"><a href="{{ task.log }}" target="_blank">Log</a></td>
+								<td class="center hidden-480"><a href="/videosearch/canceljob/{{ task.jobid }}" target="_blank">停止</a></td>
+
+
+							</tr>
+
+						{% endfor %}
+
+
+
+					</tbody>
+
+				</table>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+{% endblock %}
