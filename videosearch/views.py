@@ -116,8 +116,8 @@ class TastListView(ListView):
                 #fininshed已完成的job不用再更新了,先过滤掉
                 df_update = df_update[df_update['status'] != 'finished']
                 for ix, row in df_update.iterrows():
-                    sql_update = "update videosearch_job set start_time='{}', end_time='{}', status='{}'".\
-                        format(row['start_time'], row['end_time'], row['status'])
+                    sql_update = "update videosearch_job set start_time='{}', end_time='{}', status='{}' where jobid='{}'".\
+                        format(row['start_time'], row['end_time'], row['status'], row['jobid'])
                     print sql_update
                     engine.execute(sql_update)
 
