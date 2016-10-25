@@ -81,10 +81,9 @@ class TastListView(ListView):
             if len(df) > 0:
                 df['node_name'] = enjson['node_name']
                 df['project'] = project
-                df['jobid'] = df['id']
-                del df['id']
+                df = df.rename(columns={'id':'jobid'})
 
-                df['scrapy_task_id'] = df['jobid'].apply(lambda x: job_scrapyid_dict.get(x, '-1'))
+                df['scrapy_task_id'] = df['jobid'].apply(lambda x: job_scrapyid_dict.get(x, '0'))
                 print df.columns
                 print df['scrapy_task_id']
 
@@ -95,13 +94,36 @@ class TastListView(ListView):
 
         try:
             df_all = pd.concat(dfs, ignore_index=True)
-            print df_all.head()
+            # print df_all.head()
             df_all[pd.isnull(df_all)] = '""'
             print df_all.head()
 
-            sql = "delete from videosearch_job"
-            engine.execute(sql)
-            df_all.to_sql('videosearch_job', engine, index=False, if_exists='append')
+            sql = "SELECT jobid FROM videosite.videosearch_job"
+            df_s = pd.read_sql(sql, engine)
+            jobid_dict = {}
+            for jobid in df_s['jobid'].get_values():
+                jobid_dict[jobid] = 0
+
+            df_new    = df_all[df_all['jobid'].apply(lambda x: x not in jobid_dict)]
+            df_update = df_all[df_all['jobid'].apply(lambda x : x in jobid_dict)]
+
+            #新增的直接插入
+            if len(df_new):
+                df_new.to_sql('videosearch_job', engine, index=False, if_exists='append')
+
+            #已存在的则更新字段: start_time, end_time, status
+            if len(df_update):
+                #fininshed已完成的job不用再更新了,先过滤掉
+                df_update = df_update[df_update['status'] != 'finished']
+                for ix, row in df_update.iterrows():
+                    sql_update = "update videosearch_job set start_time='{}', end_time='{}', status='{}'".\
+                        format(row['start_time'], row['end_time'], row['status'])
+                    print sql_update
+                    engine.execute(sql_update)
+
+            # sql = "delete from videosearch_job"
+            # engine.execute(sql)
+            # df_all.to_sql('videosearch_job', engine, index=False, if_exists='append')
         except Exception, e:
             print e
 
