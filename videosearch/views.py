@@ -98,14 +98,19 @@ class TastListView(ListView):
             df_all[pd.isnull(df_all)] = '""'
             print df_all.head()
 
-            sql = "SELECT jobid FROM videosite.videosearch_job"
+            sql = "SELECT jobid, status FROM videosite.videosearch_job"
             df_s = pd.read_sql(sql, engine)
-            jobid_dict = {}
-            for jobid in df_s['jobid'].get_values():
-                jobid_dict[jobid] = 0
+            jobid_all_dict = {}
+            jobid_running_dict = {}
+            for jobid, status in df_s[['jobid', 'status']].get_values():
+                jobid_all_dict[jobid] = 0
+                if status != 'finished':
+                    jobid_running_dict[jobid] = 0
 
-            df_new    = df_all[df_all['jobid'].apply(lambda x: x not in jobid_dict)]
-            df_update = df_all[df_all['jobid'].apply(lambda x : x in jobid_dict)]
+
+
+            df_new    = df_all[df_all['jobid'].apply(lambda x: x not in jobid_all_dict)]
+            df_update = df_all[df_all['jobid'].apply(lambda x : x in jobid_all_dict)]
 
             #新增的直接插入
             if len(df_new):
@@ -113,9 +118,10 @@ class TastListView(ListView):
 
             #已存在的则更新字段: start_time, end_time, status
             if len(df_update):
-                #fininshed已完成的job不用再更新了,先过滤掉
-                df_update = df_update[df_update['status'] != 'finished']
-                for ix, row in df_update.iterrows():
+                # 筛选仍然运行的job
+                df_still_running = df_update[df_update['jobid'].apply(lambda x: x in jobid_running_dict)]
+                print df_still_running
+                for ix, row in df_still_running.iterrows():
                     sql_update = "update videosearch_job set start_time='{}', end_time='{}', status='{}' where jobid='{}'".\
                         format(row['start_time'], row['end_time'], row['status'], row['jobid'])
                     print sql_update
