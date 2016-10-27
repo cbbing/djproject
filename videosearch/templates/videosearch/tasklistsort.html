@@ -98,7 +98,7 @@ background-color: rgba(0, 0, 0, .3);
 								<!--<td>{{ task.project }}</td>-->
 								<td>{{ task.scrapy_task_id }}</td>
 								<td>{{ task.spider }}</td>
-								<td class="hidden-phone"><a href="{{ task.item }}" target="_blank">{{ task.jobid }}</a></td>
+								<td class="hidden-phone">{{ task.jobid }}</td>
 								<td class="center">{{ task.start_time | date:"Y-m-d H:i:s" }}</td>
 								<td class="center">{{ task.end_time | date:"Y-m-d H:i:s" }}</td>
 								<td class="center">{{ task.status}}</td>
