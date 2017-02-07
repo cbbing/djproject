@@ -67,7 +67,7 @@ class Job(models.Model):
     scrapy_task_id = models.IntegerField(verbose_name='scrapy_task_id', default=0)
 
     class Meta:
-        ordering = ['-start_time']
+        ordering = ['-end_time']
 
     def __unicode__(self):
         return self.project + " -> " + self.spider + " -> "+ self.jobid

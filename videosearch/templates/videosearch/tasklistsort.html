@@ -99,8 +99,8 @@ background-color: rgba(0, 0, 0, .3);
 								<td>{{ task.scrapy_task_id }}</td>
 								<td>{{ task.spider }}</td>
 								<td class="hidden-phone">{{ task.jobid }}</td>
-								<td class="center">{{ task.start_time | date:"m-d H:i" }}</td>
-								<td class="center">{{ task.end_time | date:"m-d H:i" }}</td>
+								<td class="center">{{ task.start_time | date:"Y-m-d H:i" }}</td>
+								<td class="center">{{ task.end_time | date:"Y-m-d H:i" }}</td>
 								<td class="center">{{ task.status}}</td>
 								<td class="hidden-phone">{{ task.node_name}}</td>
 								<td class="center"><a href="{{ task.log }}" target="_blank">Log</a></td>
