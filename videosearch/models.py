@@ -66,11 +66,11 @@ class Job(models.Model):
     item = models.TextField(verbose_name='Item', max_length=120, default='')
     scrapy_task_id = models.IntegerField(verbose_name='scrapy_task_id', default=0)
 
-    class Meta:
-        ordering = ['-end_time']
+    # class Meta:
+    #     ordering = ['-end_time']
 
     def __unicode__(self):
-        return self.project + " -> " + self.spider + " -> "+ self.jobid
+        return self.scrapy_task_id #self.project + " -> " + self.spider + " -> "+ self.jobid
 
 class NewJob(models.Model):
     project = models.CharField(verbose_name='Project', max_length=30)
