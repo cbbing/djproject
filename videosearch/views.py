@@ -98,7 +98,7 @@ class TastListView(ListView):
             df_all[pd.isnull(df_all)] = '""'
             print df_all.head()
 
-            sql = "SELECT jobid, status FROM videosite.videosearch_job"
+            sql = "SELECT jobid, status FROM videosite.videosearch_job where project='{}'".format(project)
             df_s = pd.read_sql(sql, engine)
             jobid_all_dict = {}
             jobid_running_dict = {}
@@ -137,14 +137,25 @@ class TastListView(ListView):
 
 class TextScrapyList(TastListView):
     template_name = 'videosearch/tasklistsort.html'
-    model = Job
+    # model = Job
+    queryset = Job.objects.filter(project='TextScrapy').order_by('-scrapy_task_id')
 
     def __init__(self, project="TextScrapy"):
         TastListView.__init__(self, project)
 
+class VideoScrapyList(TastListView):
+    template_name = 'videosearch/tasklistsort.html'
+    # model = Job
+    queryset = Job.objects.filter(project='VideoScrapy').order_by('-scrapy_task_id')
+
+    def __init__(self, project="VideoScrapy"):
+        TastListView.__init__(self, project)
+
 class FundScrapyList(TastListView):
     template_name = 'videosearch/tasklistsort.html'
-    model = Job
+    # model = Job
+
+    queryset = Job.objects.filter(project='FundSpider').order_by('-scrapy_task_id')
 
     def __init__(self, project="FundSpider"):
         TastListView.__init__(self, project)

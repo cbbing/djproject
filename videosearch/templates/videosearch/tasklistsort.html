@@ -33,30 +33,21 @@ background-color: rgba(0, 0, 0, .3);
 
 					<div class="btn-group">
 
-						<a class="btn" href="#" data-toggle="dropdown">
-
-						显示/隐藏列
-
-						<i class="icon-angle-down"></i>
-
+						<a class="btn" href="#" data-toggle="dropdown">显示/隐藏列
+							<i class="icon-angle-down"></i>
 						</a>
 
 						<div id="sample_2_column_toggler" class="dropdown-menu hold-on-click dropdown-checkboxes pull-right">
-
 							<label><input type="checkbox" checked data-column="0" value="0">TaskId</label>
-
-							<label><input type="checkbox" checked data-column="1">Spider</label>
-
-							<label><input type="checkbox" checked data-column="2">Job</label>
-
-							<label><input type="checkbox" checked data-column="3">start_time</label>
-
-							<label><input type="checkbox" checked data-column="4">end_time</label>
-							<label><input type="checkbox" checked data-column="5">status</label>
-							<label><input type="checkbox" checked data-column="6">node_name</label>
-							<label><input type="checkbox" checked data-column="7">Log</label>
-							<label><input type="checkbox" checked data-column="8">operation</label>
-
+							<label><input type="checkbox" checked data-column="1">Project</label>
+							<label><input type="checkbox" checked data-column="2">Spider</label>
+							<label><input type="checkbox" checked data-column="3">Job</label>
+							<label><input type="checkbox" checked data-column="4">start_time</label>
+							<label><input type="checkbox" checked data-column="5">end_time</label>
+							<label><input type="checkbox" checked data-column="6">status</label>
+							<label><input type="checkbox" checked data-column="7">node_name</label>
+							<label><input type="checkbox" checked data-column="8">Log</label>
+							<label><input type="checkbox" checked data-column="9">operation</label>
 						</div>
 
 					</div>
@@ -75,6 +66,7 @@ background-color: rgba(0, 0, 0, .3);
 						<tr>
 							<!--<th style="width:8px;"><input type="checkbox" class="group-checkable" data-set="#sample_2 .checkboxes" /></th>-->
 							<th>TaskId</th>
+							<th>Project</th>
 							<th>Spider</th>
 							<th class="hidden-phone">Job</th>
 							<th>Start</th>
@@ -82,7 +74,7 @@ background-color: rgba(0, 0, 0, .3);
 							<th>status</th>
 							<th class="hidden-phone">node_name</th>
 							<th>Log</th>
-							<th>operation</th>
+							<th>Operation</th>
 
 						</tr>
 
@@ -97,6 +89,7 @@ background-color: rgba(0, 0, 0, .3);
 
 								<!--<td>{{ task.project }}</td>-->
 								<td>{{ task.scrapy_task_id }}</td>
+								<td>{{ task.project }}</td>
 								<td>{{ task.spider }}</td>
 								<td class="hidden-phone">{{ task.jobid }}</td>
 								<td class="center">{{ task.start_time | date:"Y-m-d H:i" }}</td>
