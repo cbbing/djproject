@@ -77,13 +77,13 @@ var TableAdvanced = function () {
             "aoColumnDefs": [
                 { "aTargets": [ 0 ] }
             ],
-            "aaSorting": [[1, 'asc']],
+            "aaSorting": [[0, 'desc']],
              "aLengthMenu": [
-                [10, 20, 40, -1],
-                [10, 20, 40, "All"] // change per page values here
+                [10, 20, 50, -1],
+                [10, 20, 50, "All"] // change per page values here
             ],
             // set the initial value
-            "iDisplayLength": 10,
+            "iDisplayLength": 50,
         });
 
         jQuery('#sample_2_wrapper .dataTables_filter input').addClass("m-wrap small"); // modify table search input
